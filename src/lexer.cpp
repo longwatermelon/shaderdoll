@@ -71,6 +71,7 @@ Token Lexer::next_token()
         case '{': return adv(TokenType::LBRACE, "{");
         case '}': return adv(TokenType::RBRACE, "}");
         case '=': return adv(TokenType::EQUAL, "=");
+        case ',': return adv(TokenType::COMMA, ",");
         case '\n':
             ++m_line;
             advance();

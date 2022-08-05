@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "parser.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -14,13 +14,9 @@ int main()
 
     ifs.close();
 
-    Lexer lexer(ss.str());
-    Token t(TokenType::ID, "");
-
-    while ((t = lexer.next_token()).type != TokenType::EOF_)
-    {
-        std::cout << (int)t.type << " | " << t.value << "\n";
-    }
+    Parser parser(ss.str());
+    std::unique_ptr<Node> root = parser.parse();
+    std::cout << "hoo haw hee hee\n";
 
     return 0;
 }

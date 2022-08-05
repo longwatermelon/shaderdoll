@@ -11,11 +11,15 @@ enum class TokenType
     LBRACE,
     RBRACE,
     EQUAL,
+    COMMA,
     EOF_
 };
 
 struct Token
 {
+    Token()
+        : type(TokenType::ID) {}
+
     Token(TokenType type, std::string value)
         : type(type), value(value) {}
 
