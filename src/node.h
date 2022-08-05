@@ -54,6 +54,8 @@ struct Node
 
     Node(NodeType type);
 
+    std::unique_ptr<Node> copy();
+
     static std::string dtype2str(NodeType type);
     static NodeType str2dtype(const std::string &s);
 };
