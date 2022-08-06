@@ -16,8 +16,10 @@ enum class NodeType
     FLOAT,
     VOID,
     VEC,
+    BOOL,
     CONSTRUCTOR,
     BINOP,
+    IF,
     COMPOUND
 };
 
@@ -66,6 +68,9 @@ struct Node
     // float
     float float_value = 0.f;
 
+    // bool
+    bool bool_value = false;
+
     // vec
     std::vector<std::unique_ptr<Node>> vec_values;
 
@@ -82,6 +87,10 @@ struct Node
     std::unique_ptr<Node> op_l, op_r;
     std::unique_ptr<Node> op_res;
     bool op_priority = false;
+
+    // if
+    std::unique_ptr<Node> if_cond;
+    std::unique_ptr<Node> if_body;
 
     Node(NodeType type);
 

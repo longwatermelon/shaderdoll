@@ -1,6 +1,9 @@
 vec3 main()
 {
-    float a = (1 * 2) + (3 * 4) + (5 * 6);
-    print(a);
-    return vec3(uv.y, uv.x, uv.x * 0.5);
+    if (false)
+    {
+        print(1);
+    };
+
+    return vec3(uv.y, uv.x, uv.x * 0.5) * vec3(3, 3, 3);
 };

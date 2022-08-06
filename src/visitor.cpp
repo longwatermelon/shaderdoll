@@ -23,6 +23,7 @@ Node *Visitor::visit(Node *node)
     case NodeType::NOOP:
     case NodeType::FLOAT:
     case NodeType::VOID:
+    case NodeType::BOOL:
         return node;
     case NodeType::VEC: return visit_vec(node);
     case NodeType::CONSTRUCTOR: return visit_ctor(node);
@@ -37,6 +38,7 @@ Node *Visitor::visit(Node *node)
     case NodeType::RETURN:
         g_fret = visit(node->ret_value.get())->copy();
         return g_fret.get();
+    case NodeType::IF: return visit_if(node);
     }
 
     throw std::runtime_error(fmt::format("[Visitor::visit] Error: Uncaught statement of type {}.", (int)node->type));
@@ -205,6 +207,16 @@ Node *Visitor::visit_binop(Node *n)
     }
 
     return n->op_res.get();
+}
+
+Node *Visitor::visit_if(Node *n)
+{
+    n->if_cond = visit(n->if_cond.get())->copy();
+
+    if (n->if_cond->bool_value)
+        return visit(n->if_body.get());
+
+    return nullptr;
 }
 
 void Visitor::add_var(std::unique_ptr<Node> vardef)

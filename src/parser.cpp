@@ -97,9 +97,20 @@ std::unique_ptr<Node> Parser::parse_float()
     return node;
 }
 
+std::unique_ptr<Node> Parser::parse_bool()
+{
+    std::unique_ptr<Node> node = std::make_unique<Node>(NodeType::BOOL);
+    node->bool_value = (m_curr.value == "true");
+    expect(TokenType::ID);
+
+    return node;
+}
+
 std::unique_ptr<Node> Parser::parse_id()
 {
     if (m_curr.value == "return") return parse_return();
+    if (m_curr.value == "true" || m_curr.value == "false") return parse_bool();
+    if (m_curr.value == "if") return parse_if();
     if (Node::str2dtype(m_curr.value) != NodeType::NOOP) return parse_vardef();
 
     return parse_var();
@@ -294,5 +305,22 @@ std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)
         n->op_r = std::move(parent);
         return n;
     }
+}
+
+std::unique_ptr<Node> Parser::parse_if()
+{
+    expect(TokenType::ID);
+    expect(TokenType::LPAREN);
+
+    std::unique_ptr<Node> node = std::make_unique<Node>(NodeType::IF);
+    node->if_cond = parse_expr();
+
+    expect(TokenType::RPAREN);
+
+    expect(TokenType::LBRACE);
+    node->if_body = parse();
+    expect(TokenType::RBRACE);
+
+    return node;
 }
 

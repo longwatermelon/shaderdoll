@@ -24,6 +24,8 @@ public:
 
     Node *visit_binop(Node *n);
 
+    Node *visit_if(Node *n);
+
     void add_var(std::unique_ptr<Node> vardef);
 
 private:

@@ -15,6 +15,7 @@ public:
     std::unique_ptr<Node> parse_expr();
 
     std::unique_ptr<Node> parse_float();
+    std::unique_ptr<Node> parse_bool();
     std::unique_ptr<Node> parse_id();
     std::unique_ptr<Node> parse_ctor();
 
@@ -27,6 +28,8 @@ public:
     std::unique_ptr<Node> parse_return();
 
     std::unique_ptr<Node> parse_binop(std::unique_ptr<Node> left);
+
+    std::unique_ptr<Node> parse_if();
 
 private:
     Token m_curr, m_prev;
