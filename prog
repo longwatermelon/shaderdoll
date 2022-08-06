@@ -1,6 +1,6 @@
 void main()
 {
-    float a = 1 + 1.5;
+    float a = 1 + 1.5 - (2 * ((2)));
     vec3 b = vec3(1.5, 2, 100.243);
     print(a);
     print(b);

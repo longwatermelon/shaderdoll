@@ -75,6 +75,7 @@ std::unique_ptr<Node> Node::copy()
         ret->op_l = op_l->copy();
         ret->op_r = op_r->copy();
         ret->op_res = op_res ? op_res->copy() : nullptr;
+        ret->op_priority = op_priority;
         break;
     }
 

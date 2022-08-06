@@ -75,6 +75,7 @@ struct Node
     BinopType op = BinopType::ADD;
     std::unique_ptr<Node> op_l, op_r;
     std::unique_ptr<Node> op_res;
+    bool op_priority = false;
 
     Node(NodeType type);
 

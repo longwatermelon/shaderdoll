@@ -61,6 +61,15 @@ std::unique_ptr<Node> Parser::parse_expr()
     {
     case TokenType::FLOAT: m_prev_node = parse_float(); break;
     case TokenType::ID: m_prev_node = parse_id(); break;
+    case TokenType::LPAREN:
+        expect(TokenType::LPAREN);
+        m_prev_node = parse_expr();
+
+        if (m_prev_node->type == NodeType::BINOP)
+            m_prev_node->op_priority = true;
+
+        expect(TokenType::RPAREN);
+        break;
     default: found = false; break;
     }
 
@@ -247,7 +256,7 @@ std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)
     n->op_l = std::move(left);
     std::unique_ptr<Node> parent = parse_expr();
 
-    if (parent->type == NodeType::BINOP)
+    if (parent->type == NodeType::BINOP && !parent->op_priority)
     {
         std::unique_ptr<Node> *bl = &parent;
 
