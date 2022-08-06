@@ -1,0 +1,13 @@
+vec3 main()
+{
+    float y = ((sin(uv.x * 10) * cos(uv.x * 10)) / 4) + 0.5;
+
+    if (abs(uv.y - y) < ((uv.x * 10) / 500))
+    {
+        return vec3(uv.x, 1, 1);
+    }
+    else
+    {
+        return vec3(0, 0, 0);
+    };
+};
