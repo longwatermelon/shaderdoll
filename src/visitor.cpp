@@ -160,10 +160,15 @@ Node *Visitor::visit_param(Node *n)
 }
 
 #define BINOP_EXEC(a, b, op, res) { \
-    if (op == BinopType::ADD) res = a + b; \
-    if (op == BinopType::SUB) res = a - b; \
-    if (op == BinopType::MUL) res = a * b; \
-    if (op == BinopType::DIV) res = a / b; \
+    if (op == BinopType::ADD) res->float_value = a + b; \
+    if (op == BinopType::SUB) res->float_value = a - b; \
+    if (op == BinopType::MUL) res->float_value = a * b; \
+    if (op == BinopType::DIV) res->float_value = a / b; \
+    if (op == BinopType::LESS) \
+    { \
+        res->type = NodeType::BOOL; \
+        res->bool_value = a < b; \
+    } \
 }
 
 #define BINOP_VEC_EXEC(a, b, op, res) {\
@@ -197,7 +202,7 @@ Node *Visitor::visit_binop(Node *n)
     switch (l->type)
     {
     case NodeType::FLOAT:
-        BINOP_EXEC(l->float_value, r->float_value, n->op, n->op_res->float_value);
+        BINOP_EXEC(l->float_value, r->float_value, n->op, n->op_res);
         break;
     case NodeType::VEC:
         BINOP_VEC(l, r, n->op, n->op_res);

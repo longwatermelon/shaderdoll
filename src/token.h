@@ -22,13 +22,13 @@ enum class BinopToken
     PLUS,
     MINUS,
     MUL,
-    DIV
+    DIV,
+    LESS
 };
 
 struct Token
 {
-    Token()
-        : type(TokenType::ID) {}
+    Token() = default;
 
     Token(TokenType type, std::string value)
         : type(type), value(value) {}
@@ -36,9 +36,9 @@ struct Token
     Token(BinopToken type, std::string value)
         : type(TokenType::BINOP), value(value), binop_type(type) {}
 
-    TokenType type;
+    TokenType type = TokenType::ID;
     std::string value;
 
-    BinopToken binop_type;
+    BinopToken binop_type = BinopToken::PLUS;
 };
 

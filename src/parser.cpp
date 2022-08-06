@@ -276,6 +276,7 @@ std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)
     case '-': n->op = BinopType::SUB; break;
     case '*': n->op = BinopType::MUL; break;
     case '/': n->op = BinopType::DIV; break;
+    case '<': n->op = BinopType::LESS; break;
     }
 
     expect(TokenType::BINOP);

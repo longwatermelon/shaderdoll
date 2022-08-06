@@ -28,7 +28,8 @@ enum class BinopType
     ADD,
     SUB,
     MUL,
-    DIV
+    DIV,
+    LESS
 };
 
 struct Node
