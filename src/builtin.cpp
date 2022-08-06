@@ -1,5 +1,6 @@
 #include "builtin.h"
 #include <iostream>
+#include <cmath>
 
 std::unique_ptr<Node> builtin::construct(Node *ctor)
 {
@@ -53,5 +54,13 @@ Node *builtin::print(Node *fcall)
 
     std::cout << "\n";
     return fcall;
+}
+
+Node *builtin::sqrt(Node *fcall)
+{
+    Node *arg = fcall->fcall_args[0].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::sqrt(arg->float_value);
+    return fcall->fcall_ret.get();
 }
 

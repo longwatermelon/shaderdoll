@@ -10,5 +10,6 @@ namespace builtin
     std::unique_ptr<Node> construct_vec(Node *ctor);
 
     Node *print(Node *fcall);
+    Node *sqrt(Node *fcall);
 }
 

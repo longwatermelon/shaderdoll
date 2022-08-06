@@ -3,7 +3,7 @@ float distance(vec3 a, vec3 b)
     vec3 diff = vec3(a.x - b.x, a.y - b.y, a.z - b.z);
     print(diff.x * diff.x, diff.y * diff.y, diff.z * diff.z);
     float tmp = (diff.x * diff.x) + (diff.y * diff.y) + (diff.z * diff.z);
-    return tmp;
+    return sqrt(tmp);
 };
 
 vec3 main()
