@@ -18,6 +18,8 @@ public:
     Node *visit_fdef(Node *n);
     Node *visit_ctor(Node *n);
 
+    Node *visit_vec(Node *n);
+
     Node *visit_param(Node *n);
 
 private:

@@ -21,6 +21,7 @@ Node *Visitor::visit(Node *node)
     case NodeType::FLOAT:
     case NodeType::VOID:
         return node;
+    case NodeType::VEC: return visit_vec(node);
     case NodeType::CONSTRUCTOR: return visit_ctor(node);
     case NodeType::COMPOUND: return visit_compound(node);
     case NodeType::VARDEF: return visit_vardef(node);
@@ -99,6 +100,14 @@ Node *Visitor::visit_ctor(Node *n)
 
     n->ctor_res = builtin::construct(n);
     return n->ctor_res.get();
+}
+
+Node *Visitor::visit_vec(Node *n)
+{
+    for (auto &v : n->vec_values)
+        v = visit(v.get())->copy();
+
+    return n;
 }
 
 Node *Visitor::visit_param(Node *n)

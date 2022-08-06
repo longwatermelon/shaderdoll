@@ -14,6 +14,7 @@ enum class NodeType
     PARAM,
     FLOAT,
     VOID,
+    VEC,
     CONSTRUCTOR,
     COMPOUND
 };
@@ -49,6 +50,9 @@ struct Node
 
     // float
     float float_value = 0.f;
+
+    // vec
+    std::vector<std::unique_ptr<Node>> vec_values;
 
     // constructor
     NodeType ctor_type = NodeType::NOOP;

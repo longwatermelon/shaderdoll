@@ -1,5 +1,5 @@
 void main()
 {
-    float a = float(1);
-    a = float(1000);
+    vec3 v = vec3(1, 2, 3);
+    v = vec3(1000.5, 2234.1929, 53442.21);
 }

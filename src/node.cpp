@@ -14,6 +14,12 @@ std::unique_ptr<Node> Node::copy()
     case NodeType::FLOAT:
         ret->float_value = float_value;
         break;
+    case NodeType::VEC:
+        ret->vec_values.resize(vec_values.size());
+        for (size_t i = 0; i < vec_values.size(); ++i)
+            ret->vec_values[i] = vec_values[i]->copy();
+
+        break;
     case NodeType::VOID:
     case NodeType::NOOP:
         break;
@@ -73,6 +79,7 @@ std::string Node::dtype2str(NodeType type)
     {
     case NodeType::FLOAT: return "float";
     case NodeType::VOID: return "void";
+    case NodeType::VEC: return "vec";
     default: return "";
     }
 }
@@ -81,6 +88,7 @@ NodeType Node::str2dtype(const std::string &s)
 {
     if (s == "float") return NodeType::FLOAT;
     if (s == "void") return NodeType::VOID;
+    if (s.substr(0, 3) == "vec") return NodeType::VEC;
 
     return NodeType::NOOP;
 }
