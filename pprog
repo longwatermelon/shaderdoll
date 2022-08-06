@@ -1,9 +1,11 @@
 vec3 main()
 {
-    if (3 > 4)
+    if (3 < 2)
     {
-        print(1);
+        return vec3(1, 1, 1);
+    }
+    else
+    {
+        return vec3(uv.y, uv.x, uv.x * 0.5) * vec3(3, 3, 3);
     };
-
-    return vec3(uv.y, uv.x, uv.x * 0.5) * vec3(3, 3, 3);
 };

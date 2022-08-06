@@ -93,6 +93,7 @@ struct Node
     // if
     std::unique_ptr<Node> if_cond;
     std::unique_ptr<Node> if_body;
+    std::unique_ptr<Node> if_else_body;
 
     Node(NodeType type);
 

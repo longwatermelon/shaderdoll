@@ -90,6 +90,7 @@ std::unique_ptr<Node> Node::copy()
     case NodeType::IF:
         ret->if_cond = if_cond->copy();
         ret->if_body = if_body->copy();
+        ret->if_else_body = if_else_body->copy();
         break;
     }
 

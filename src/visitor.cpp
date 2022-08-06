@@ -226,6 +226,11 @@ Node *Visitor::visit_if(Node *n)
 
     if (n->if_cond->bool_value)
         return visit(n->if_body.get());
+    else
+    {
+        if (n->if_else_body)
+            return visit(n->if_else_body.get());
+    }
 
     return nullptr;
 }

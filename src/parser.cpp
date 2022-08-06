@@ -323,6 +323,14 @@ std::unique_ptr<Node> Parser::parse_if()
     node->if_body = parse();
     expect(TokenType::RBRACE);
 
+    if (m_curr.value == "else")
+    {
+        expect(TokenType::ID);
+        expect(TokenType::LBRACE);
+        node->if_else_body = parse();
+        expect(TokenType::RBRACE);
+    }
+
     return node;
 }
 
