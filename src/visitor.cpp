@@ -164,6 +164,22 @@ Node *Visitor::visit_param(Node *n)
     if (op == BinopType::DIV) res = a / b; \
 }
 
+#define BINOP_VEC_EXEC(a, b, op, res) {\
+    for (size_t i = 0; i < a->vec_values.size(); ++i) \
+    { \
+        res->vec_values[i] = std::make_unique<Node>(NodeType::FLOAT); \
+        res->vec_values[i]->float_value = a->vec_values[i]->float_value op b->vec_values[i]->float_value; \
+    } \
+}
+
+#define BINOP_VEC(a, b, op, res) {\
+    res->vec_values.resize(a->vec_values.size()); \
+    if (op == BinopType::ADD) BINOP_VEC_EXEC(a, b, +, res); \
+    if (op == BinopType::SUB) BINOP_VEC_EXEC(a, b, -, res); \
+    if (op == BinopType::MUL) BINOP_VEC_EXEC(a, b, *, res); \
+    if (op == BinopType::DIV) BINOP_VEC_EXEC(a, b, /, res); \
+}
+
 Node *Visitor::visit_binop(Node *n)
 {
     Node *l = visit(n->op_l.get());
@@ -180,6 +196,9 @@ Node *Visitor::visit_binop(Node *n)
     {
     case NodeType::FLOAT:
         BINOP_EXEC(l->float_value, r->float_value, n->op, n->op_res->float_value);
+        break;
+    case NodeType::VEC:
+        BINOP_VEC(l, r, n->op, n->op_res);
         break;
     default:
         throw std::runtime_error(fmt::format("[Visitor::visit_binop] Error: Performing operator on invalid type."));

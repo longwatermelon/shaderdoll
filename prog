@@ -1,6 +1,6 @@
 vec3 main()
 {
-    float dist = distance(vec3(2, 3, 2), vec3(0, 0, 0));
+    float dist = distance(vec3(2, 3, 2) * vec3(1, 0, 0), vec3(0, 0, 0));
     print(dist);
     return vec3(uv.y, uv.x, uv.x * 0.5);
 };
