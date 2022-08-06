@@ -69,6 +69,11 @@ std::unique_ptr<Node> Parser::parse_expr()
 
         expect(TokenType::RPAREN);
         break;
+    case TokenType::LBRACE:
+        expect(TokenType::LBRACE);
+        m_prev_node = parse();
+        expect(TokenType::RBRACE);
+        break;
     default: found = false; break;
     }
 
@@ -249,9 +254,7 @@ std::unique_ptr<Node> Parser::parse_fdef(NodeType type, const std::string &name)
 
     expect(TokenType::RPAREN);
 
-    expect(TokenType::LBRACE);
-    node->fdef_body = parse();
-    expect(TokenType::RBRACE);
+    node->fdef_body = parse_expr();
 
     return node;
 }
@@ -319,16 +322,12 @@ std::unique_ptr<Node> Parser::parse_if()
 
     expect(TokenType::RPAREN);
 
-    expect(TokenType::LBRACE);
-    node->if_body = parse();
-    expect(TokenType::RBRACE);
+    node->if_body = parse_expr();
 
     if (m_curr.value == "else")
     {
         expect(TokenType::ID);
-        expect(TokenType::LBRACE);
-        node->if_else_body = parse();
-        expect(TokenType::RBRACE);
+        node->if_else_body = parse_expr();
     }
 
     return node;

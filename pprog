@@ -4,8 +4,12 @@ vec3 main()
     {
         return vec3(1, 1, 1);
     }
-    else
+    else if (3 > 4)
     {
         return vec3(uv.y, uv.x, uv.x * 0.5) * vec3(3, 3, 3);
+    }
+    else
+    {
+        return vec3(1, 0, 0);
     };
 };
