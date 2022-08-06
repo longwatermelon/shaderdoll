@@ -169,6 +169,12 @@ Node *Visitor::visit_param(Node *n)
         res->type = NodeType::BOOL; \
         res->bool_value = a < b; \
     } \
+    \
+    if (op == BinopType::GREATER) \
+    { \
+        res->type = NodeType::BOOL; \
+        res->bool_value = a > b; \
+    } \
 }
 
 #define BINOP_VEC_EXEC(a, b, op, res) {\

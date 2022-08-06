@@ -85,6 +85,7 @@ Token Lexer::next_token()
         case '*': return advb(BinopToken::MUL, "*");
         case '/': return advb(BinopToken::DIV, "/");
         case '<': return advb(BinopToken::LESS, "<");
+        case '>': return advb(BinopToken::GREATER, ">");
 
         case '\n':
             ++m_line;

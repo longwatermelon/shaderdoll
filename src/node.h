@@ -29,7 +29,8 @@ enum class BinopType
     SUB,
     MUL,
     DIV,
-    LESS
+    LESS,
+    GREATER
 };
 
 struct Node

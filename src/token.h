@@ -23,7 +23,8 @@ enum class BinopToken
     MINUS,
     MUL,
     DIV,
-    LESS
+    LESS,
+    GREATER
 };
 
 struct Token
