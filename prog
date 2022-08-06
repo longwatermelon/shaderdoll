@@ -1,11 +1,4 @@
-float test()
-{
-    return 500;
-};
-
 vec3 main()
 {
-    float a = test();
-    print(test());
     return vec3(1, 0, 0);
 };

@@ -95,8 +95,9 @@ Node *Visitor::visit_fcall(Node *n)
 
     Node *def = m_scope.find_fdef(n->fcall_name);
     visit(def->fdef_body.get());
+    n->fcall_ret = g_fret->copy();
 
-    return g_fret.get();
+    return n->fcall_ret.get();
 }
 
 Node *Visitor::visit_fdef(Node *n)
