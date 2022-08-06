@@ -2,6 +2,7 @@
 
 Scope::Scope()
 {
+    push_layer();
 }
 
 Scope::~Scope()
@@ -10,7 +11,7 @@ Scope::~Scope()
 
 void Scope::add_vardef(Node *node)
 {
-    m_vardefs.emplace_back(node);
+    m_layers.back().vardefs.emplace_back(node);
 }
 
 void Scope::add_fdef(Node *node)
@@ -20,10 +21,13 @@ void Scope::add_fdef(Node *node)
 
 Node *Scope::find_vardef(const std::string &name)
 {
-    for (auto &def : m_vardefs)
+    for (auto &l : m_layers)
     {
-        if (def->vardef_name == name)
-            return def;
+        for (auto &def : l.vardefs)
+        {
+            if (def->vardef_name == name)
+                return def;
+        }
     }
 
     return 0;
@@ -38,5 +42,15 @@ Node *Scope::find_fdef(const std::string &name)
     }
 
     return 0;
+}
+
+void Scope::push_layer()
+{
+    m_layers.emplace_back(ScopeLayer());
+}
+
+void Scope::pop_layer()
+{
+    m_layers.pop_back();
 }
 

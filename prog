@@ -1,5 +1,12 @@
+float distance(vec3 a, vec3 b)
+{
+    vec3 diff = vec3(a.x - b.x, a.y - b.y, a.z - b.z);
+    return diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
+};
+
 vec3 main()
 {
-    vec3 a = vec3(1, 1, 0);;
+    print(distance(vec3(0, 0, 0), vec3(1, 1, 1)));
+    vec3 a = vec3(1, 1, 0);
     return vec3(uv.y, uv.x, uv.x * 0.5);
 };

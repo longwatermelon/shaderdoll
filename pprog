@@ -1,0 +1,4 @@
+vec3 main()
+{
+    return vec3(uv.y, uv.x, uv.x * 0.5);
+};

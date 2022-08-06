@@ -102,15 +102,20 @@ Node *Visitor::visit_fcall(Node *n)
     if (n->fcall_name == "print") return builtin::print(n);
 
     Node *def = m_scope.find_fdef(n->fcall_name);
+    m_scope.push_layer();
     visit(def->fdef_body.get());
+
     n->fcall_ret = g_fret->copy();
+    m_scope.pop_layer();
 
     return n->fcall_ret.get();
 }
 
 Node *Visitor::visit_fdef(Node *n)
 {
+    m_scope.push_layer();
     m_scope.add_fdef(n);
+    m_scope.pop_layer();
     return n;
 }
 

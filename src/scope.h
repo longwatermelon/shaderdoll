@@ -1,6 +1,11 @@
 #pragma once
 #include "node.h"
 
+struct ScopeLayer
+{
+    std::vector<Node*> vardefs;
+};
+
 class Scope
 {
 public:
@@ -13,7 +18,11 @@ public:
     Node *find_vardef(const std::string &name);
     Node *find_fdef(const std::string &name);
 
+    void push_layer();
+    void pop_layer();
+
 private:
-    std::vector<Node*> m_vardefs, m_fdefs;
+    std::vector<ScopeLayer> m_layers;
+    std::vector<Node*> m_fdefs;
 };
 
