@@ -44,6 +44,7 @@ std::unique_ptr<Node> Node::copy()
         break;
     case NodeType::VAR:
         ret->var_name = var_name;
+        ret->var_memb_access = var_memb_access;
         break;
     case NodeType::VARDEF:
         ret->vardef_type = vardef_type;

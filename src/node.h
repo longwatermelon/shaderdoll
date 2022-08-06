@@ -40,6 +40,7 @@ struct Node
 
     // var
     std::string var_name;
+    char var_memb_access = 0;
 
     // fcall
     std::string fcall_name;

@@ -12,6 +12,7 @@ enum class TokenType
     RBRACE,
     EQUAL,
     COMMA,
+    PERIOD,
     BINOP,
     EOF_
 };

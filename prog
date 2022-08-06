@@ -1,4 +1,5 @@
 vec3 main()
 {
-    return vec3(1, 0, 0);
+    vec3 a = vec3(1, 1, 0);
+    return vec3(0, a.x, 0);
 };

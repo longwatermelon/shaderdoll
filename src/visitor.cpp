@@ -62,6 +62,17 @@ Node *Visitor::visit_vardef(Node *n)
 Node *Visitor::visit_var(Node *n)
 {
     Node *def = m_scope.find_vardef(n->var_name);
+
+    if (def->vardef_type == NodeType::VEC)
+    {
+        switch (n->var_memb_access)
+        {
+        case 'x': return visit(def->vardef_value->vec_values[0].get());
+        case 'y': return visit(def->vardef_value->vec_values[1].get());
+        case 'z': return visit(def->vardef_value->vec_values[2].get());
+        }
+    }
+
     return visit(def);
 }
 

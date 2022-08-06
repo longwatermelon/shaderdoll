@@ -137,6 +137,13 @@ std::unique_ptr<Node> Parser::parse_var()
     std::unique_ptr<Node> n = std::make_unique<Node>(NodeType::VAR);
     n->var_name = id;
 
+    if (m_curr.type == TokenType::PERIOD)
+    {
+        expect(TokenType::PERIOD);
+        n->var_memb_access = m_curr.value[0];
+        expect(TokenType::ID);
+    }
+
     return n;
 }
 

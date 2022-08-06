@@ -77,6 +77,7 @@ Token Lexer::next_token()
         case '}': return adv(TokenType::RBRACE, "}");
         case '=': return adv(TokenType::EQUAL, "=");
         case ',': return adv(TokenType::COMMA, ",");
+        case '.': return adv(TokenType::PERIOD, ".");
 
         case '+': return advb(BinopToken::PLUS, "+");
         case '-': return advb(BinopToken::MINUS, "-");
