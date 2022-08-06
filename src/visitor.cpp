@@ -101,6 +101,7 @@ Node *Visitor::visit_fcall(Node *n)
 
     if (n->fcall_name == "print") return builtin::print(n);
     if (n->fcall_name == "sqrt") return builtin::sqrt(n);
+    if (n->fcall_name == "distance") return builtin::distance(n);
 
     Node *def = m_scope.find_fdef(n->fcall_name);
     m_scope.push_layer();

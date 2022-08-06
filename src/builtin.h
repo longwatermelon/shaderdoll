@@ -11,5 +11,6 @@ namespace builtin
 
     Node *print(Node *fcall);
     Node *sqrt(Node *fcall);
+    Node *distance(Node *fcall);
 }
 

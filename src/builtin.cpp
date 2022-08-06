@@ -64,3 +64,17 @@ Node *builtin::sqrt(Node *fcall)
     return fcall->fcall_ret.get();
 }
 
+Node *builtin::distance(Node *fcall)
+{
+    Node *a = fcall->fcall_args[0].get();
+    Node *b = fcall->fcall_args[1].get();
+
+    float x = a->vec_values[0]->float_value - b->vec_values[0]->float_value;
+    float y = a->vec_values[1]->float_value - b->vec_values[1]->float_value;
+    float z = a->vec_values[2]->float_value - b->vec_values[2]->float_value;
+
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::sqrt(x * x + y * y + z * z);
+    return fcall->fcall_ret.get();
+}
+
