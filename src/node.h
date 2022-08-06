@@ -16,7 +16,13 @@ enum class NodeType
     VOID,
     VEC,
     CONSTRUCTOR,
+    BINOP,
     COMPOUND
+};
+
+enum class BinopType
+{
+    ADD
 };
 
 struct Node
@@ -61,6 +67,11 @@ struct Node
 
     // compound
     std::vector<std::unique_ptr<Node>> comp_values;
+
+    // binop
+    BinopType op = BinopType::ADD;
+    std::unique_ptr<Node> op_l, op_r;
+    std::unique_ptr<Node> op_res;
 
     Node(NodeType type);
 

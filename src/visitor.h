@@ -22,6 +22,8 @@ public:
 
     Node *visit_param(Node *n);
 
+    Node *visit_binop(Node *n);
+
 private:
     Scope m_scope;
 };

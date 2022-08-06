@@ -25,8 +25,12 @@ public:
     std::unique_ptr<Node> parse_fcall();
     std::unique_ptr<Node> parse_fdef(NodeType type, const std::string &name);
 
+    std::unique_ptr<Node> parse_binop(std::unique_ptr<Node> left);
+
 private:
     Token m_curr, m_prev;
     Lexer m_lexer;
+
+    std::unique_ptr<Node> m_prev_node;
 };
 

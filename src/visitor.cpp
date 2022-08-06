@@ -30,6 +30,7 @@ Node *Visitor::visit(Node *node)
     case NodeType::FCALL: return visit_fcall(node);
     case NodeType::FDEF: return visit_fdef(node);
     case NodeType::PARAM: return visit_param(node);
+    case NodeType::BINOP: return visit_binop(node);
     }
 
     throw std::runtime_error("[Visitor::visit] Error: Uncaught statement of type " +
@@ -114,5 +115,33 @@ Node *Visitor::visit_param(Node *n)
 {
     Node *def = m_scope.find_vardef(n->param_name);
     return visit(def->vardef_value.get());
+}
+
+#define BINOP_EXEC(a, b, op, res) { \
+    if (op == BinopType::ADD) res = a + b; \
+}
+
+Node *Visitor::visit_binop(Node *n)
+{
+    Node *l = visit(n->op_l.get());
+    Node *r = visit(n->op_r.get());
+
+    if (l->type != r->type)
+    {
+        throw std::runtime_error("[Visitor::visit_binop] Error: Incompatible types.");
+    }
+
+    n->op_res = std::make_unique<Node>(l->type);
+
+    switch (l->type)
+    {
+    case NodeType::FLOAT:
+        BINOP_EXEC(l->float_value, r->float_value, n->op, n->op_res->float_value);
+        break;
+    default:
+        throw std::runtime_error("[Visitor::visit_binop] Error: Performing operator on invalid type.");
+    }
+
+    return n->op_res.get();
 }
 

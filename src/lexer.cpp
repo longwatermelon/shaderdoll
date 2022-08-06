@@ -63,6 +63,11 @@ Token Lexer::next_token()
             return Token(type, c);
         };
 
+        auto advb = [&](BinopToken type, std::string c) {
+            advance();
+            return Token(type, c);
+        };
+
         switch (m_ch)
         {
         case ';': return adv(TokenType::SEMI, ";");
@@ -72,6 +77,9 @@ Token Lexer::next_token()
         case '}': return adv(TokenType::RBRACE, "}");
         case '=': return adv(TokenType::EQUAL, "=");
         case ',': return adv(TokenType::COMMA, ",");
+
+        case '+': return advb(BinopToken::PLUS, "+");
+
         case '\n':
             ++m_line;
             advance();

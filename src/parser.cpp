@@ -48,12 +48,29 @@ std::unique_ptr<Node> Parser::parse()
 
 std::unique_ptr<Node> Parser::parse_expr()
 {
+    bool found = true;
+
     switch (m_curr.type)
     {
-    case TokenType::FLOAT: return parse_float();
-    case TokenType::ID: return parse_id();
-    default: return nullptr;
+    case TokenType::FLOAT: m_prev_node = parse_float(); break;
+    case TokenType::ID: m_prev_node = parse_id(); break;
+    default: found = false; break;
     }
+
+    if (found)
+    {
+        if (m_curr.type == TokenType::BINOP)
+        {
+            std::unique_ptr<Node> prev = parse_binop(std::move(m_prev_node));
+            m_prev_node = std::move(prev);
+        }
+    }
+    else
+    {
+        m_prev_node.reset(0);
+    }
+
+    return std::move(m_prev_node);
 }
 
 std::unique_ptr<Node> Parser::parse_float()
@@ -204,5 +221,23 @@ std::unique_ptr<Node> Parser::parse_fdef(NodeType type, const std::string &name)
     expect(TokenType::RBRACE);
 
     return node;
+}
+
+std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)
+{
+    std::unique_ptr<Node> n = std::make_unique<Node>(NodeType::BINOP);
+
+    switch (m_curr.value[0])
+    {
+    case '+': n->op = BinopType::ADD; break;
+    }
+
+    expect(TokenType::BINOP);
+
+    n->op_l = std::move(left);
+    std::unique_ptr<Node> parent = parse_expr();
+
+    n->op_r = std::move(parent);
+    return n;
 }
 

@@ -12,7 +12,13 @@ enum class TokenType
     RBRACE,
     EQUAL,
     COMMA,
+    BINOP,
     EOF_
+};
+
+enum class BinopToken
+{
+    PLUS
 };
 
 struct Token
@@ -23,7 +29,12 @@ struct Token
     Token(TokenType type, std::string value)
         : type(type), value(value) {}
 
+    Token(BinopToken type, std::string value)
+        : type(TokenType::BINOP), value(value), binop_type(type) {}
+
     TokenType type;
     std::string value;
+
+    BinopToken binop_type;
 };
 

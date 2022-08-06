@@ -29,6 +29,7 @@ std::unique_ptr<Node> Node::copy()
             ret->ctor_args[i] = ctor_args[i]->copy();
 
         ret->ctor_type = ctor_type;
+        ret->ctor_res = ctor_res ? ctor_res->copy() : nullptr;
         break;
 
     case NodeType::ASSIGN:
@@ -67,6 +68,13 @@ std::unique_ptr<Node> Node::copy()
     case NodeType::PARAM:
         ret->param_type = param_type;
         ret->param_name = param_name;
+        break;
+
+    case NodeType::BINOP:
+        ret->op = op;
+        ret->op_l = op_l->copy();
+        ret->op_r = op_r->copy();
+        ret->op_res = op_res ? op_res->copy() : nullptr;
         break;
     }
 
