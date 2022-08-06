@@ -5,6 +5,28 @@
 #include <sstream>
 #include <algorithm>
 
+void variables(Visitor &v, size_t x, size_t y, size_t size)
+{
+    std::unique_ptr<Node> vardef = std::make_unique<Node>(NodeType::VARDEF);
+
+    std::unique_ptr<Node> uv = std::make_unique<Node>(NodeType::VEC);
+    uv->vec_values.resize(2);
+    float xp = static_cast<float>(x) / static_cast<float>(size);
+    float yp = static_cast<float>(y) / static_cast<float>(size);
+
+    uv->vec_values[0] = std::make_unique<Node>(NodeType::FLOAT);
+    uv->vec_values[1] = std::make_unique<Node>(NodeType::FLOAT);
+
+    uv->vec_values[0]->float_value = xp;
+    uv->vec_values[1]->float_value = yp;
+
+    vardef->vardef_value = std::move(uv);
+    vardef->vardef_type = NodeType::VEC;
+    vardef->vardef_name = "uv";
+
+    v.add_var(std::move(vardef));
+}
+
 void generate(size_t size)
 {
     std::ifstream ifs("prog");
@@ -29,6 +51,7 @@ void generate(size_t size)
         for (size_t x = 0; x < size; ++x)
         {
             Visitor v;
+            variables(v, x, y, size);
 
             std::unique_ptr<Node> root_copy = root->copy();
             v.visit(root_copy.get());
@@ -45,7 +68,7 @@ void generate(size_t size)
 
 int main()
 {
-    generate(100);
+    generate(300);
     return 0;
 }
 

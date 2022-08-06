@@ -174,3 +174,9 @@ Node *Visitor::visit_binop(Node *n)
     return n->op_res.get();
 }
 
+void Visitor::add_var(std::unique_ptr<Node> vardef)
+{
+    m_inputs.emplace_back(std::move(vardef));
+    m_scope.add_vardef(m_inputs.back().get());
+}
+

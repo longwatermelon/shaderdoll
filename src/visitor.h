@@ -24,7 +24,10 @@ public:
 
     Node *visit_binop(Node *n);
 
+    void add_var(std::unique_ptr<Node> vardef);
+
 private:
     Scope m_scope;
+    std::vector<std::unique_ptr<Node>> m_inputs;
 };
 
