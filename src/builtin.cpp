@@ -42,7 +42,8 @@ Node *builtin::call(Node *fcall)
         { "distance", builtin::distance },
         { "dot", builtin::dot },
         { "sin", builtin::sin },
-        { "cos", builtin::cos }
+        { "cos", builtin::cos },
+        { "abs", builtin::abs }
     };
 
     if (map.find(fcall->fcall_name) != map.end())
@@ -125,6 +126,15 @@ Node *builtin::cos(Node *fcall)
     Node *arg = fcall->fcall_args[0].get();
     fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
     fcall->fcall_ret->float_value = std::cos(arg->float_value);
+
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::abs(Node *fcall)
+{
+    Node *arg = fcall->fcall_args[0].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::abs(arg->float_value);
 
     return fcall->fcall_ret.get();
 }
