@@ -4,6 +4,7 @@
 struct ScopeLayer
 {
     std::vector<Node*> vardefs;
+    std::vector<std::unique_ptr<Node>> params;
 };
 
 class Scope
@@ -13,6 +14,7 @@ public:
     ~Scope();
 
     void add_vardef(Node *node);
+    void add_param(std::unique_ptr<Node> node);
     void add_fdef(Node *node);
 
     Node *find_vardef(const std::string &name);

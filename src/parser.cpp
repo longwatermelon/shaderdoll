@@ -274,13 +274,19 @@ std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)
 
     if (parent->type == NodeType::BINOP && !parent->op_priority)
     {
-        std::unique_ptr<Node> *bl = &parent;
+        std::unique_ptr<Node> *bl_parent = &parent;
+        std::unique_ptr<Node> *bl = &parent->op_l;
 
-        while ((*bl)->op_l->type == NodeType::BINOP)
+        while (*bl && (*bl)->op_l->type == NodeType::BINOP)
+        {
+            bl_parent = bl;
             bl = &(*bl)->op_l;
+        }
 
-        n->op_r = std::move((*bl)->op_l);
-        (*bl)->op_l = std::move(n);
+        /* n->op_r = std::move((*bl)->op_l); */
+        /* (*bl)->op_l = std::move(n); */
+        n->op_r = std::move(*bl);
+        (*bl_parent)->op_l = std::move(n);
         return parent;
     }
     else

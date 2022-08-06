@@ -103,6 +103,17 @@ Node *Visitor::visit_fcall(Node *n)
 
     Node *def = m_scope.find_fdef(n->fcall_name);
     m_scope.push_layer();
+
+    for (size_t i = 0; i < n->fcall_args.size(); ++i)
+    {
+        std::unique_ptr<Node> vardef = std::make_unique<Node>(NodeType::VARDEF);
+        vardef->vardef_type = def->fdef_params[i]->param_type;
+        vardef->vardef_name = def->fdef_params[i]->param_name;
+        vardef->vardef_value = n->fcall_args[i]->copy();
+
+        m_scope.add_param(std::move(vardef));
+    }
+
     visit(def->fdef_body.get());
 
     n->fcall_ret = g_fret->copy();
