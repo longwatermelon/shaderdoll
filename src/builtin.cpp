@@ -1,4 +1,5 @@
 #include "builtin.h"
+#include <iostream>
 
 std::unique_ptr<Node> builtin::construct(Node *ctor)
 {
@@ -28,5 +29,29 @@ std::unique_ptr<Node> builtin::construct_vec(Node *ctor)
         n->vec_values[i] = ctor->ctor_args[i]->copy();
 
     return n;
+}
+
+Node *builtin::print(Node *fcall)
+{
+    for (auto &arg : fcall->fcall_args)
+    {
+        switch (arg->type)
+        {
+        case NodeType::FLOAT: std::cout << arg->float_value; break;
+        case NodeType::VEC:
+            std::cout << "{ ";
+            for (size_t i = 0; i < arg->vec_values.size(); ++i)
+                std::cout << arg->vec_values[i]->float_value << (i == arg->vec_values.size() - 1 ? "" : ", ");
+            std::cout << " }";
+            break;
+        default:
+            throw std::runtime_error("[builtin::print] Error: Can't print this type.");
+        }
+
+        std::cout << ' ';
+    }
+
+    std::cout << "\n";
+    return fcall;
 }
 

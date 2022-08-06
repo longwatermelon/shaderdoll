@@ -8,5 +8,7 @@ namespace builtin
     std::unique_ptr<Node> construct(Node *ctor);
     std::unique_ptr<Node> construct_float(Node *ctor);
     std::unique_ptr<Node> construct_vec(Node *ctor);
+
+    Node *print(Node *fcall);
 }
 

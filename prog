@@ -1,3 +1,7 @@
 void main()
 {
+    float a = 1 + 1.5;
+    vec3 b = vec3(1.5, 2, 100.243);
+    print(a);
+    print(b);
 }

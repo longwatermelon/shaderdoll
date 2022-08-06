@@ -23,7 +23,7 @@ int main()
     Visitor visitor;
     visitor.visit(root.get());
 
-    std::cout << root->comp_values[0]->fdef_body->comp_values[0]->vardef_value->float_value << "\n";
+    /* std::cout << root->comp_values[0]->fdef_body->comp_values[0]->vardef_value->float_value << "\n"; */
 
     return 0;
 }

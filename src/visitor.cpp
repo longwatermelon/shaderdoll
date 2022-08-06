@@ -51,7 +51,7 @@ Node *Visitor::visit_vardef(Node *n)
     n->vardef_value = value->copy();
 
     m_scope.add_vardef(n);
-    return n;
+    return n->vardef_value.get();
 }
 
 Node *Visitor::visit_var(Node *n)
@@ -81,6 +81,11 @@ Node *Visitor::visit_assign(Node *n)
 
 Node *Visitor::visit_fcall(Node *n)
 {
+    for (auto &arg : n->fcall_args)
+        arg = visit(arg.get())->copy();
+
+    if (n->fcall_name == "print") return builtin::print(n);
+
     Node *def = m_scope.find_fdef(n->fcall_name);
     return visit(def->fdef_body.get());
 }

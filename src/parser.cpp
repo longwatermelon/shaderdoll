@@ -33,14 +33,21 @@ std::unique_ptr<Node> Parser::parse()
     std::unique_ptr<Node> root = std::make_unique<Node>(NodeType::COMPOUND);
     root->comp_values.emplace_back(parse_expr());
 
-    while (m_curr.type != TokenType::EOF_)
+    if (root->comp_values[0])
     {
-        expect(TokenType::SEMI);
+        while (m_curr.type != TokenType::EOF_)
+        {
+            expect(TokenType::SEMI);
 
-        std::unique_ptr<Node> expr = parse_expr();
-        if (!expr) break;
+            std::unique_ptr<Node> expr = parse_expr();
+            if (!expr) break;
 
-        root->comp_values.emplace_back(std::move(expr));
+            root->comp_values.emplace_back(std::move(expr));
+        }
+    }
+    else
+    {
+        root->comp_values[0] = std::make_unique<Node>(NodeType::NOOP);
     }
 
     return root;
@@ -119,7 +126,7 @@ std::unique_ptr<Node> Parser::parse_var()
     if (m_curr.type == TokenType::EQUAL) return parse_assign();
 
     std::unique_ptr<Node> n = std::make_unique<Node>(NodeType::VAR);
-    n->var_name = m_curr.value;
+    n->var_name = id;
 
     return n;
 }
