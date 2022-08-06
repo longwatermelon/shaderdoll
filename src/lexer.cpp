@@ -79,6 +79,7 @@ Token Lexer::next_token()
         case ',': return adv(TokenType::COMMA, ",");
 
         case '+': return advb(BinopToken::PLUS, "+");
+        case '-': return advb(BinopToken::MINUS, "-");
 
         case '\n':
             ++m_line;

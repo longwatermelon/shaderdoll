@@ -119,6 +119,7 @@ Node *Visitor::visit_param(Node *n)
 
 #define BINOP_EXEC(a, b, op, res) { \
     if (op == BinopType::ADD) res = a + b; \
+    if (op == BinopType::SUB) res = a - b; \
 }
 
 Node *Visitor::visit_binop(Node *n)

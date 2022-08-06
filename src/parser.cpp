@@ -230,6 +230,7 @@ std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)
     switch (m_curr.value[0])
     {
     case '+': n->op = BinopType::ADD; break;
+    case '-': n->op = BinopType::SUB; break;
     }
 
     expect(TokenType::BINOP);
@@ -237,7 +238,21 @@ std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)
     n->op_l = std::move(left);
     std::unique_ptr<Node> parent = parse_expr();
 
-    n->op_r = std::move(parent);
-    return n;
+    if (parent->type == NodeType::BINOP)
+    {
+        std::unique_ptr<Node> *bl = &parent;
+
+        while ((*bl)->op_l->type == NodeType::BINOP)
+            bl = &(*bl)->op_l;
+
+        n->op_r = std::move((*bl)->op_l);
+        (*bl)->op_l = std::move(n);
+        return parent;
+    }
+    else
+    {
+        n->op_r = std::move(parent);
+        return n;
+    }
 }
 

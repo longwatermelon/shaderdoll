@@ -18,7 +18,8 @@ enum class TokenType
 
 enum class BinopToken
 {
-    PLUS
+    PLUS,
+    MINUS
 };
 
 struct Token

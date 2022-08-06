@@ -22,7 +22,8 @@ enum class NodeType
 
 enum class BinopType
 {
-    ADD
+    ADD,
+    SUB
 };
 
 struct Node
