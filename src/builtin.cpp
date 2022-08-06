@@ -41,6 +41,9 @@ Node *builtin::call(Node *fcall)
         { "sqrt", builtin::sqrt },
         { "distance", builtin::distance },
         { "dot", builtin::dot },
+        { "normalize", builtin::normalize },
+        { "length", builtin::length },
+
         { "sin", builtin::sin },
         { "cos", builtin::cos },
         { "tan", builtin::tan },
@@ -110,6 +113,41 @@ Node *builtin::dot(Node *fcall)
 
     fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
     fcall->fcall_ret->float_value = res;
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::normalize(Node *fcall)
+{
+    Node *arg = fcall->fcall_args[0].get();
+
+    float len = 0.f;
+    for (size_t i = 0; i < arg->vec_values.size(); ++i)
+        len += std::pow(arg->vec_values[i]->float_value, 2);
+
+    len = std::sqrt(len);
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::VEC);
+    fcall->fcall_ret->vec_values.resize(arg->vec_values.size());
+
+    for (size_t i = 0; i < arg->vec_values.size(); ++i)
+    {
+        fcall->fcall_ret->vec_values[i] = std::make_unique<Node>(NodeType::FLOAT);
+        fcall->fcall_ret->vec_values[i]->float_value = arg->vec_values[i]->float_value / len;
+    }
+
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::length(Node *fcall)
+{
+    Node *arg = fcall->fcall_args[0].get();
+
+    float len = 0.f;
+    for (size_t i = 0; i < arg->vec_values.size(); ++i)
+        len += std::pow(arg->vec_values[i]->float_value, 2);
+
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::sqrt(len);
+
     return fcall->fcall_ret.get();
 }
 

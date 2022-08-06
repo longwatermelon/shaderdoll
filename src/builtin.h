@@ -15,11 +15,12 @@ namespace builtin
     Node *sqrt(Node *fcall);
     Node *distance(Node *fcall);
     Node *dot(Node *fcall);
+    Node *normalize(Node *fcall);
+    Node *length(Node *fcall);
 
     Node *sin(Node *fcall);
     Node *cos(Node *fcall);
     Node *tan(Node *fcall);
-
     Node *abs(Node *fcall);
 }
 
