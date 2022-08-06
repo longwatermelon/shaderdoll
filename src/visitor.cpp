@@ -99,9 +99,8 @@ Node *Visitor::visit_fcall(Node *n)
     for (auto &arg : n->fcall_args)
         arg = visit(arg.get())->copy();
 
-    if (n->fcall_name == "print") return builtin::print(n);
-    if (n->fcall_name == "sqrt") return builtin::sqrt(n);
-    if (n->fcall_name == "distance") return builtin::distance(n);
+    Node *builtin_call = builtin::call(n);
+    if (builtin_call) return builtin_call;
 
     Node *def = m_scope.find_fdef(n->fcall_name);
     m_scope.push_layer();

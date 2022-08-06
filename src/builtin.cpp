@@ -32,6 +32,15 @@ std::unique_ptr<Node> builtin::construct_vec(Node *ctor)
     return n;
 }
 
+Node *builtin::call(Node *fcall)
+{
+    if (fcall->fcall_name == "print") return builtin::print(fcall);
+    if (fcall->fcall_name == "sqrt") return builtin::sqrt(fcall);
+    if (fcall->fcall_name == "distance") return builtin::distance(fcall);
+
+    return nullptr;
+}
+
 Node *builtin::print(Node *fcall)
 {
     for (auto &arg : fcall->fcall_args)
