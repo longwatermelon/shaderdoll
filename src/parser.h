@@ -16,6 +16,7 @@ public:
 
     std::unique_ptr<Node> parse_float();
     std::unique_ptr<Node> parse_id();
+    std::unique_ptr<Node> parse_ctor();
 
     std::unique_ptr<Node> parse_var();
     std::unique_ptr<Node> parse_vardef();

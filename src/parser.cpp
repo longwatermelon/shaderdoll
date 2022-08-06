@@ -73,6 +73,26 @@ std::unique_ptr<Node> Parser::parse_id()
     return parse_var();
 }
 
+std::unique_ptr<Node> Parser::parse_ctor()
+{
+    std::unique_ptr<Node> node = std::make_unique<Node>(NodeType::CONSTRUCTOR);
+
+    // On lparen
+    node->ctor_type = Node::str2dtype(m_prev.value);
+    expect(TokenType::LPAREN);
+
+    while (m_curr.type != TokenType::RPAREN)
+    {
+        node->ctor_args.emplace_back(parse_expr());
+
+        if (m_curr.type != TokenType::RPAREN)
+            expect(TokenType::COMMA);
+    }
+
+    expect(TokenType::RPAREN);
+    return node;
+}
+
 std::unique_ptr<Node> Parser::parse_var()
 {
     std::string id = m_curr.value;
@@ -91,6 +111,9 @@ std::unique_ptr<Node> Parser::parse_vardef()
 {
     NodeType type = Node::str2dtype(m_curr.value);
     expect(TokenType::ID);
+
+    if (m_curr.type == TokenType::LPAREN)
+        return parse_ctor();
 
     std::string name = m_curr.value;
     expect(TokenType::ID);

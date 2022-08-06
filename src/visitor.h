@@ -16,6 +16,7 @@ public:
 
     Node *visit_fcall(Node *n);
     Node *visit_fdef(Node *n);
+    Node *visit_ctor(Node *n);
 
     Node *visit_param(Node *n);
 

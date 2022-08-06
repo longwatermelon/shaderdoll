@@ -1,5 +1,5 @@
 void main()
 {
-    float a = 1;
-    a = 10;
+    float a = float(1);
+    a = float(1000);
 }

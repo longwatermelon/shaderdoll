@@ -18,6 +18,13 @@ std::unique_ptr<Node> Node::copy()
     case NodeType::NOOP:
         break;
 
+    case NodeType::CONSTRUCTOR:
+        for (size_t i = 0; i < ctor_args.size(); ++i)
+            ret->ctor_args[i] = ctor_args[i]->copy();
+
+        ret->ctor_type = ctor_type;
+        break;
+
     case NodeType::ASSIGN:
         ret->assign_l = assign_l->copy();
         ret->assign_r = assign_r->copy();

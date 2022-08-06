@@ -1,4 +1,5 @@
 #include "visitor.h"
+#include "builtin.h"
 #include <exception>
 #include <sstream>
 
@@ -20,6 +21,7 @@ Node *Visitor::visit(Node *node)
     case NodeType::FLOAT:
     case NodeType::VOID:
         return node;
+    case NodeType::CONSTRUCTOR: return visit_ctor(node);
     case NodeType::COMPOUND: return visit_compound(node);
     case NodeType::VARDEF: return visit_vardef(node);
     case NodeType::VAR: return visit_var(node);
@@ -43,6 +45,9 @@ Node *Visitor::visit_compound(Node *node)
 
 Node *Visitor::visit_vardef(Node *n)
 {
+    Node *value = visit(n->vardef_value.get());
+    n->vardef_value = value->copy();
+
     m_scope.add_vardef(n);
     return n;
 }
@@ -82,6 +87,18 @@ Node *Visitor::visit_fdef(Node *n)
 {
     m_scope.add_fdef(n);
     return n;
+}
+
+Node *Visitor::visit_ctor(Node *n)
+{
+    for (auto &e : n->ctor_args)
+    {
+        Node *value = visit(e.get());
+        e = value->copy();
+    }
+
+    n->ctor_res = builtin::construct(n);
+    return n->ctor_res.get();
 }
 
 Node *Visitor::visit_param(Node *n)
