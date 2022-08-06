@@ -1,6 +1,8 @@
 #include "builtin.h"
 #include <iostream>
 #include <cmath>
+#include <map>
+#include <functional>
 
 std::unique_ptr<Node> builtin::construct(Node *ctor)
 {
@@ -34,9 +36,17 @@ std::unique_ptr<Node> builtin::construct_vec(Node *ctor)
 
 Node *builtin::call(Node *fcall)
 {
-    if (fcall->fcall_name == "print") return builtin::print(fcall);
-    if (fcall->fcall_name == "sqrt") return builtin::sqrt(fcall);
-    if (fcall->fcall_name == "distance") return builtin::distance(fcall);
+    std::map<std::string, std::function<Node*(Node*)>> map{
+        { "print", builtin::print },
+        { "sqrt", builtin::sqrt },
+        { "distance", builtin::distance },
+        { "dot", builtin::dot },
+        { "sin", builtin::sin },
+        { "cos", builtin::cos }
+    };
+
+    if (map.find(fcall->fcall_name) != map.end())
+        return map[fcall->fcall_name](fcall);
 
     return nullptr;
 }
@@ -78,12 +88,44 @@ Node *builtin::distance(Node *fcall)
     Node *a = fcall->fcall_args[0].get();
     Node *b = fcall->fcall_args[1].get();
 
-    float x = a->vec_values[0]->float_value - b->vec_values[0]->float_value;
-    float y = a->vec_values[1]->float_value - b->vec_values[1]->float_value;
-    float z = a->vec_values[2]->float_value - b->vec_values[2]->float_value;
+    float res = 0.f;
+    for (size_t i = 0; i < a->vec_values.size(); ++i)
+        res += std::pow(a->vec_values[i]->float_value - b->vec_values[i]->float_value, 2);
 
     fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
-    fcall->fcall_ret->float_value = std::sqrt(x * x + y * y + z * z);
+    fcall->fcall_ret->float_value = std::sqrt(res);
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::dot(Node *fcall)
+{
+    Node *a = fcall->fcall_args[0].get();
+    Node *b = fcall->fcall_args[1].get();
+
+    float res = 0.f;
+    for (size_t i = 0; i < a->vec_values.size(); ++i)
+        res += a->vec_values[i]->float_value * b->vec_values[i]->float_value;
+
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = res;
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::sin(Node *fcall)
+{
+    Node *arg = fcall->fcall_args[0].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::sin(arg->float_value);
+
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::cos(Node *fcall)
+{
+    Node *arg = fcall->fcall_args[0].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::cos(arg->float_value);
+
     return fcall->fcall_ret.get();
 }
 

@@ -14,5 +14,8 @@ namespace builtin
     Node *print(Node *fcall);
     Node *sqrt(Node *fcall);
     Node *distance(Node *fcall);
+    Node *dot(Node *fcall);
+    Node *sin(Node *fcall);
+    Node *cos(Node *fcall);
 }
 
