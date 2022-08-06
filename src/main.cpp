@@ -5,7 +5,7 @@
 #include <sstream>
 #include <algorithm>
 
-void generate()
+void generate(size_t size)
 {
     std::ifstream ifs("prog");
     std::stringstream ss;
@@ -22,11 +22,11 @@ void generate()
     root->comp_values[root->comp_values.size() - 1]->fcall_name = "main";
 
     std::ofstream ofs("out.ppm");
-    ofs << "P3\n500 500\n255\n";
+    ofs << "P3\n" << size << ' ' << size << "\n255\n";
 
-    for (size_t y = 0; y < 500; ++y)
+    for (size_t y = 0; y < size; ++y)
     {
-        for (size_t x = 0; x < 500; ++x)
+        for (size_t x = 0; x < size; ++x)
         {
             Visitor v;
 
@@ -45,7 +45,7 @@ void generate()
 
 int main()
 {
-    generate();
+    generate(100);
     return 0;
 }
 
