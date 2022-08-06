@@ -1,8 +1,8 @@
 vec3 main()
 {
-    float y = (sin(uv.x * 10) / 4) + 0.5;
+    float y = ((tan(uv.x * 10) * sin(uv.x * 10)) / 4) + 0.5;
 
-    if (abs(uv.y - y) < ((uv.x * 10) / 500))
+    if (abs(uv.y - y) < (10 / 300))
     {
         return vec3(uv.x, 1, 1);
     }

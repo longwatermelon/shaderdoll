@@ -43,6 +43,7 @@ Node *builtin::call(Node *fcall)
         { "dot", builtin::dot },
         { "sin", builtin::sin },
         { "cos", builtin::cos },
+        { "tan", builtin::tan },
         { "abs", builtin::abs }
     };
 
@@ -126,6 +127,15 @@ Node *builtin::cos(Node *fcall)
     Node *arg = fcall->fcall_args[0].get();
     fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
     fcall->fcall_ret->float_value = std::cos(arg->float_value);
+
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::tan(Node *fcall)
+{
+    Node *arg = fcall->fcall_args[0].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::tan(arg->float_value);
 
     return fcall->fcall_ret.get();
 }

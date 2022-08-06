@@ -293,7 +293,7 @@ std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)
         std::unique_ptr<Node> *bl_parent = &parent;
         std::unique_ptr<Node> *bl = &parent->op_l;
 
-        while (*bl && (*bl)->op_l->type == NodeType::BINOP)
+        while (*bl && (*bl)->op_l && (*bl)->op_l->type == NodeType::BINOP)
         {
             bl_parent = bl;
             bl = &(*bl)->op_l;
