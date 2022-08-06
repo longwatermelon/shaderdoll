@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <fmt/core.h>
 
 void variables(Visitor &v, size_t x, size_t y, size_t size)
 {
@@ -27,9 +28,9 @@ void variables(Visitor &v, size_t x, size_t y, size_t size)
     v.add_var(std::move(vardef));
 }
 
-void generate(size_t size)
+void generate(const std::string &prog, size_t size)
 {
-    std::ifstream ifs("prog");
+    std::ifstream ifs(prog);
     std::stringstream ss;
     std::string buf;
 
@@ -66,9 +67,17 @@ void generate(size_t size)
     }
 }
 
-int main()
+int main(int argc, char **argv)
 {
-    generate(300);
+    try
+    {
+        generate(argv[1], 300);
+    }
+    catch (std::runtime_error &e)
+    {
+        fmt::print("{}\n", e.what());
+    }
+
     return 0;
 }
 

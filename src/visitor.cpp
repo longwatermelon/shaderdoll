@@ -2,6 +2,7 @@
 #include "builtin.h"
 #include <exception>
 #include <sstream>
+#include <fmt/core.h>
 
 static std::unique_ptr<Node> g_fret;
 
@@ -38,8 +39,7 @@ Node *Visitor::visit(Node *node)
         return g_fret.get();
     }
 
-    throw std::runtime_error("[Visitor::visit] Error: Uncaught statement of type " +
-                             std::to_string((int)node->type) + ".\n");
+    throw std::runtime_error(fmt::format("[Visitor::visit] Error: Uncaught statement of type {}.", (int)node->type));
 }
 
 Node *Visitor::visit_compound(Node *node)
@@ -84,11 +84,8 @@ Node *Visitor::visit_assign(Node *n)
 
     if (def->vardef_type != right->type)
     {
-        std::stringstream ss;
-        ss << "[Visitor::visit_assign] Error: Mismatched types when assigning to '" <<
-              def->vardef_name << "': " << (int)def->vardef_type << " and " << (int)right->type <<
-              ".\n";
-        throw std::runtime_error(ss.str());
+        throw std::runtime_error(fmt::format("[Visitor::visit_assign] Error: Mismatched types when assigning to '"
+                                             "{}': {} and {}.", def->vardef_name, (int)def->vardef_type, (int)right->type));
     }
 
     def->vardef_value = right->copy();
@@ -157,7 +154,7 @@ Node *Visitor::visit_binop(Node *n)
 
     if (l->type != r->type)
     {
-        throw std::runtime_error("[Visitor::visit_binop] Error: Incompatible types.");
+        throw std::runtime_error(fmt::format("[Visitor::visit_binop] Error: Incompatible types."));
     }
 
     n->op_res = std::make_unique<Node>(l->type);
@@ -168,7 +165,7 @@ Node *Visitor::visit_binop(Node *n)
         BINOP_EXEC(l->float_value, r->float_value, n->op, n->op_res->float_value);
         break;
     default:
-        throw std::runtime_error("[Visitor::visit_binop] Error: Performing operator on invalid type.");
+        throw std::runtime_error(fmt::format("[Visitor::visit_binop] Error: Performing operator on invalid type."));
     }
 
     return n->op_res.get();

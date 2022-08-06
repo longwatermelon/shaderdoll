@@ -1,6 +1,7 @@
 #include "parser.h"
 #include <exception>
 #include <sstream>
+#include <fmt/core.h>
 
 Parser::Parser(const std::string &contents)
     : m_lexer(contents)
@@ -21,10 +22,8 @@ void Parser::expect(TokenType type)
     }
     else
     {
-        std::stringstream ss;
-        ss << "[Parser::expect] Error: Unexpected token '" << m_curr.value << "' of type "
-           << (int)m_curr.type << "; Expected " << (int)type << ".\n";
-        throw std::runtime_error(ss.str());
+        throw std::runtime_error(fmt::format("[Parser::expect] Error: Unexpected token '{}' of type {}; Expected {}.",
+                                 m_curr.value, (int)m_curr.type, (int)type));
     }
 }
 

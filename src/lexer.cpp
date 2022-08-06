@@ -2,6 +2,7 @@
 #include <sstream>
 #include <exception>
 #include <iostream>
+#include <fmt/core.h>
 
 Lexer::Lexer(const std::string &contents)
     : m_contents(contents)
@@ -90,9 +91,7 @@ Token Lexer::next_token()
             break;
         default:
         {
-            std::stringstream ss;
-            ss << "[Lexer::next_token()] (Line " << m_line << ") Error: Token " << m_ch << " is not recognized.\n";
-            throw std::runtime_error(ss.str());
+            throw std::runtime_error(fmt::format("[Lexer::next_token] (Line {}) Error: Token {} is not recognized.", m_line, m_ch));
         } break;
         }
     }
