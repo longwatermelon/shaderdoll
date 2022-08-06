@@ -24,6 +24,7 @@ public:
 
     std::unique_ptr<Node> parse_fcall();
     std::unique_ptr<Node> parse_fdef(NodeType type, const std::string &name);
+    std::unique_ptr<Node> parse_return();
 
     std::unique_ptr<Node> parse_binop(std::unique_ptr<Node> left);
 

@@ -10,6 +10,7 @@ enum class NodeType
     VAR,
     FCALL,
     FDEF,
+    RETURN,
     ASSIGN,
     PARAM,
     FLOAT,
@@ -43,12 +44,16 @@ struct Node
     // fcall
     std::string fcall_name;
     std::vector<std::unique_ptr<Node>> fcall_args;
+    std::unique_ptr<Node> fcall_ret;
 
     // fdef
     std::string fdef_name;
     std::vector<std::unique_ptr<Node>> fdef_params;
     std::unique_ptr<Node> fdef_body;
     NodeType fdef_rtype = NodeType::NOOP; // return
+
+    // return
+    std::unique_ptr<Node> ret_value;
 
     // assign
     std::unique_ptr<Node> assign_l, assign_r;

@@ -100,8 +100,8 @@ std::unique_ptr<Node> Parser::parse_float()
 
 std::unique_ptr<Node> Parser::parse_id()
 {
-    if (Node::str2dtype(m_curr.value) != NodeType::NOOP)
-        return parse_vardef();
+    if (m_curr.value == "return") return parse_return();
+    if (Node::str2dtype(m_curr.value) != NodeType::NOOP) return parse_vardef();
 
     return parse_var();
 }
@@ -237,6 +237,16 @@ std::unique_ptr<Node> Parser::parse_fdef(NodeType type, const std::string &name)
     expect(TokenType::RBRACE);
 
     return node;
+}
+
+std::unique_ptr<Node> Parser::parse_return()
+{
+    expect(TokenType::ID);
+
+    std::unique_ptr<Node> n = std::make_unique<Node>(NodeType::RETURN);
+    n->ret_value = parse_expr();
+
+    return n;
 }
 
 std::unique_ptr<Node> Parser::parse_binop(std::unique_ptr<Node> left)

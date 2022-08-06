@@ -1,7 +1,11 @@
-void main()
+float test()
 {
-    float a = 1 + 1.5 - (2 * ((2)));
-    vec3 b = vec3(1.5, 2, 100.243);
-    print(a);
-    print(b);
-}
+    return 500;
+};
+
+vec3 main()
+{
+    float a = test();
+    print(test());
+    return vec3(1, 0, 0);
+};

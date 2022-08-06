@@ -52,6 +52,8 @@ std::unique_ptr<Node> Node::copy()
 
     case NodeType::FCALL:
         ret->fcall_name = fcall_name;
+        ret->fcall_ret = fcall_ret->copy();
+
         for (auto &v : fcall_args)
             ret->fcall_args.emplace_back(v->copy());
 
@@ -63,6 +65,9 @@ std::unique_ptr<Node> Node::copy()
         for (auto &v : fdef_params)
             ret->fdef_params.emplace_back(v->copy());
 
+        break;
+    case NodeType::RETURN:
+        ret->ret_value = ret_value->copy();
         break;
 
     case NodeType::PARAM:

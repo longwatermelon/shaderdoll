@@ -3,6 +3,8 @@
 #include <exception>
 #include <sstream>
 
+static std::unique_ptr<Node> g_fret;
+
 Visitor::Visitor()
 {
 }
@@ -31,6 +33,9 @@ Node *Visitor::visit(Node *node)
     case NodeType::FDEF: return visit_fdef(node);
     case NodeType::PARAM: return visit_param(node);
     case NodeType::BINOP: return visit_binop(node);
+    case NodeType::RETURN:
+        g_fret = visit(node->ret_value.get())->copy();
+        return g_fret.get();
     }
 
     throw std::runtime_error("[Visitor::visit] Error: Uncaught statement of type " +
@@ -81,13 +86,17 @@ Node *Visitor::visit_assign(Node *n)
 
 Node *Visitor::visit_fcall(Node *n)
 {
+    g_fret = std::make_unique<Node>(NodeType::VOID);
+
     for (auto &arg : n->fcall_args)
         arg = visit(arg.get())->copy();
 
     if (n->fcall_name == "print") return builtin::print(n);
 
     Node *def = m_scope.find_fdef(n->fcall_name);
-    return visit(def->fdef_body.get());
+    visit(def->fdef_body.get());
+
+    return g_fret.get();
 }
 
 Node *Visitor::visit_fdef(Node *n)
