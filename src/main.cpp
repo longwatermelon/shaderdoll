@@ -55,10 +55,9 @@ void generate(const std::string &prog, size_t size)
             Visitor v;
             variables(v, x, y, size);
 
-            std::unique_ptr<Node> root_copy = root->copy();
-            v.visit(root_copy.get());
+            v.visit(root.get());
 
-            auto &rgb = root_copy->comp_values[root->comp_values.size() - 1]->fcall_ret->vec_values;
+            auto &rgb = root->comp_values[root->comp_values.size() - 1]->fcall_ret->vec_values;
             int r = std::clamp(rgb[0]->float_value * 255.f, 0.f, 255.f);
             int g = std::clamp(rgb[1]->float_value * 255.f, 0.f, 255.f);
             int b = std::clamp(rgb[2]->float_value * 255.f, 0.f, 255.f);

@@ -15,24 +15,31 @@ vec3 drawln(vec2 a, vec2 b, float r)
 
 vec3 main()
 {
-    float ooz = (1 / 10) + 0.5;
-    float oozp = (1 / 5) + 0.5;
-    float nooz = (0-1 / 10) + 0.5;
-    float noozp = (0-1 / 5) + 0.5;
+    float zn = 5;
+    float zf = 10;
     float r = 0.001;
 
-    vec2 a = vec2(nooz, nooz);
-    vec2 b = vec2(ooz, nooz);
-    vec2 c = vec2(nooz, ooz);
-    vec2 d = vec2(ooz, ooz);
-    vec2 e = vec2(noozp, noozp);
-    vec2 f = vec2(oozp, noozp);
-    vec2 g = vec2(noozp, oozp);
-    vec2 h = vec2(oozp, oozp);
+    vec3 a = vec3(0-1, 0-1, zn);
+    vec3 b = vec3(1, 0-1, zn);
+    vec3 c = vec3(1, 1, zn);
+    vec3 d = vec3(0-1, 1, zn);
 
-    vec3 res = drawln(a, b, r) + drawln(b, d, r) + drawln(d, c, r) + drawln(a, c, r) +
-               drawln(e, f, r) + drawln(f, h, r) + drawln(h, g, r) + drawln(g, e, r) +
-               drawln(a, e, r) + drawln(b, f, r) + drawln(d, h, r) + drawln(c, g, r);
+    vec3 e = vec3(0-1, 0-1, zf);
+    vec3 f = vec3(1, 0-1, zf);
+    vec3 g = vec3(1, 1, zf);
+    vec3 h = vec3(0-1, 1, zf);
 
-    return res;
+    vec2 ar = vec2(a.x / a.z + 0.5, a.y / a.z + 0.5);
+    vec2 br = vec2(b.x / b.z + 0.5, b.y / b.z + 0.5);
+    vec2 cr = vec2(c.x / c.z + 0.5, c.y / c.z + 0.5);
+    vec2 dr = vec2(d.x / d.z + 0.5, d.y / d.z + 0.5);
+
+    vec2 er = vec2(e.x / e.z + 0.5, e.y / e.z + 0.5);
+    vec2 fr = vec2(f.x / f.z + 0.5, f.y / f.z + 0.5);
+    vec2 gr = vec2(g.x / g.z + 0.5, g.y / g.z + 0.5);
+    vec2 hr = vec2(h.x / h.z + 0.5, h.y / h.z + 0.5);
+
+    return drawln(ar, br, r) + drawln(br, cr, r) + drawln(cr, dr, r) + drawln(dr, ar, r) +
+           drawln(er, fr, r) + drawln(fr, gr, r) + drawln(gr, hr, r) + drawln(hr, er, r) +
+           drawln(ar, er, r) + drawln(br, fr, r) + drawln(cr, gr, r) + drawln(dr, hr, r);
 };
