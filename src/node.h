@@ -91,7 +91,7 @@ struct Node
     bool op_priority = false;
 
     // if
-    std::unique_ptr<Node> if_cond;
+    std::unique_ptr<Node> if_cond, if_cond_res;
     std::unique_ptr<Node> if_body;
     std::unique_ptr<Node> if_else_body;
 

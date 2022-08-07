@@ -25,7 +25,7 @@ void variables(Visitor &v, size_t x, size_t y, size_t size)
     vardef->vardef_type = NodeType::VEC;
     vardef->vardef_name = "uv";
 
-    v.add_var(std::move(vardef));
+    v.add_input(std::move(vardef));
 }
 
 void generate(const std::string &prog, size_t size)

@@ -26,7 +26,7 @@ public:
 
     Node *visit_if(Node *n);
 
-    void add_var(std::unique_ptr<Node> vardef);
+    void add_input(std::unique_ptr<Node> vardef);
 
 private:
     Scope m_scope;

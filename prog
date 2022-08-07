@@ -1,20 +1,13 @@
-vec3 drawln(vec2 a, vec2 b, vec2 r)
+float test(float a)
 {
-    vec2 g = b - a;
-    vec2 h = uv - a;
-
-    float tmp = dot(g, h) / dot(g, g);
-    if (tmp < 0) { tmp = 0; };
-    if (tmp > 1) { tmp = 1; };
-
-    float d = length(h - (g * vec2(tmp, tmp)));
-
-    if (d < r) { return vec3(1, 1, 1); }
-    else { return vec3(0, 0, 0); };
+    if (a < 5) { return a + 1; }
+    else { return a - 1; };
 };
 
 vec3 main()
 {
-    vec3 res = drawln(vec2(0.5, 0.5), vec2(0.7, 0.5), 0.01);
-    return res;
+    float b = test(10);
+    float a = test(3);
+    print(a, b);
+    return vec3(0, 0, 0);
 };

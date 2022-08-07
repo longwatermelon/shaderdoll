@@ -75,7 +75,7 @@ Node *Visitor::visit_var(Node *n)
         }
     }
 
-    return visit(def);
+    return visit(def->vardef_value.get());
 }
 
 Node *Visitor::visit_assign(Node *n)
@@ -222,9 +222,9 @@ Node *Visitor::visit_binop(Node *n)
 
 Node *Visitor::visit_if(Node *n)
 {
-    n->if_cond = visit(n->if_cond.get())->copy();
+    n->if_cond_res = visit(n->if_cond.get())->copy();
 
-    if (n->if_cond->bool_value)
+    if (n->if_cond_res->bool_value)
         return visit(n->if_body.get());
     else
     {
@@ -235,9 +235,9 @@ Node *Visitor::visit_if(Node *n)
     return nullptr;
 }
 
-void Visitor::add_var(std::unique_ptr<Node> vardef)
+void Visitor::add_input(std::unique_ptr<Node> vardef)
 {
     m_inputs.emplace_back(std::move(vardef));
-    m_scope.add_vardef(m_inputs.back().get());
+    m_scope.add_global_vardef(m_inputs.back().get());
 }
 
