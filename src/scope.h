@@ -14,6 +14,7 @@ public:
     ~Scope();
 
     void add_vardef(Node *node);
+    void add_global_vardef(Node *node);
     void add_param(std::unique_ptr<Node> node);
     void add_fdef(Node *node);
 
@@ -25,6 +26,7 @@ public:
 
 private:
     std::vector<ScopeLayer> m_layers;
+    std::vector<Node*> m_global_vars;
     std::vector<Node*> m_fdefs;
 };
 
