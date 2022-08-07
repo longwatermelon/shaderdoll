@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-std=c++17 -ggdb -Wall
+CXXFLAGS=-std=c++17 -ggdb -Wall -O3
 LDFLAGS=-lm -lfmt
 
 SRC=$(wildcard src/*.cpp)

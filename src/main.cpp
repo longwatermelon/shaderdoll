@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <fmt/core.h>
 
+bool g_quiet = false;
+
 void variables(Visitor &v, size_t x, size_t y, size_t size)
 {
     std::unique_ptr<Node> vardef = std::make_unique<Node>(NodeType::VARDEF);
@@ -50,6 +52,12 @@ void generate(const std::string &prog, size_t size)
 
     for (size_t y = 0; y < size; ++y)
     {
+        if (!g_quiet && y % 10 == 0)
+        {
+            fmt::print("\r{:.2f}%", (float)(y * size) / (float)(size * size) * 100.f);
+            fflush(stdout);
+        }
+
         for (size_t x = 0; x < size; ++x)
         {
             Visitor v;
@@ -65,13 +73,24 @@ void generate(const std::string &prog, size_t size)
             ofs << r << ' ' << g << ' ' << b << "\n";
         }
     }
+
+    std::cout << "\r100.00%\n";
 }
 
 int main(int argc, char **argv)
 {
     try
     {
-        generate(argv[1], 100);
+        if (argc == 1)
+            throw std::runtime_error("[main] Error: No input file specified.");
+
+        if (argc >= 3)
+        {
+            if (std::strcmp(argv[2], "quiet") == 0)
+                g_quiet = true;
+        }
+
+        generate(argv[1], 300);
     }
     catch (std::runtime_error &e)
     {
