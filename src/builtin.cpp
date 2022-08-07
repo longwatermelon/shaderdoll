@@ -71,7 +71,9 @@ Node *builtin::print(Node *fcall)
             std::cout << " }";
             break;
         default:
-            throw std::runtime_error(fmt::format("[builtin::print] Error: Can't print this type ({}).", (int)arg->type));
+            throw std::runtime_error(fmt::format(
+                "[builtin::print] (Line {}) Error: Can't print this type ({}).",
+                arg->line, (int)arg->type));
         }
 
         std::cout << ' ';

@@ -31,14 +31,15 @@ struct Token
 {
     Token() = default;
 
-    Token(TokenType type, std::string value)
-        : type(type), value(value) {}
+    Token(TokenType type, std::string value, size_t line)
+        : type(type), value(value), line(line) {}
 
-    Token(BinopToken type, std::string value)
-        : type(TokenType::BINOP), value(value), binop_type(type) {}
+    Token(BinopToken type, std::string value, size_t line)
+        : type(TokenType::BINOP), value(value), line(line), binop_type(type) {}
 
     TokenType type = TokenType::ID;
     std::string value;
+    size_t line;
 
     BinopToken binop_type = BinopToken::PLUS;
 };

@@ -41,7 +41,8 @@ Node *Visitor::visit(Node *node)
     case NodeType::IF: return visit_if(node);
     }
 
-    throw std::runtime_error(fmt::format("[Visitor::visit] Error: Uncaught statement of type {}.", (int)node->type));
+    throw std::runtime_error(fmt::format("[Visitor::visit] (Line {}) Error: Uncaught statement of type {}.",
+                             node->line, (int)node->type));
 }
 
 Node *Visitor::visit_compound(Node *node)
@@ -85,8 +86,8 @@ Node *Visitor::visit_assign(Node *n)
 
     if (def->vardef_type != right->type)
     {
-        throw std::runtime_error(fmt::format("[Visitor::visit_assign] Error: Mismatched types when assigning to '"
-                                             "{}': {} and {}.", def->vardef_name, (int)def->vardef_type, (int)right->type));
+        throw std::runtime_error(fmt::format("[Visitor::visit_assign] (Line {}) Error: Mismatched types when assigning to '"
+                                             "{}': {} and {}.", right->line, def->vardef_name, (int)def->vardef_type, (int)right->type));
     }
 
     def->vardef_value_res = right->copy();
@@ -199,7 +200,9 @@ Node *Visitor::visit_binop(Node *n)
 
     if (l->type != r->type)
     {
-        throw std::runtime_error(fmt::format("[Visitor::visit_binop] Error: Incompatible types."));
+        throw std::runtime_error(fmt::format(
+            "[Visitor::visit_binop] (Line {}) Error: Incompatible types {} and {}.",
+            l->line, (int)l->type, (int)r->type));
     }
 
     n->op_res = std::make_unique<Node>(l->type);
@@ -213,7 +216,9 @@ Node *Visitor::visit_binop(Node *n)
         BINOP_VEC(l, r, n->op, n->op_res);
         break;
     default:
-        throw std::runtime_error(fmt::format("[Visitor::visit_binop] Error: Performing operator on invalid type."));
+        throw std::runtime_error(fmt::format(
+            "[Visitor::visit_binop] (Line {}) Error: Performing operator on invalid type {}.",
+            n->line, (int)l->type));
     }
 
     return n->op_res.get();

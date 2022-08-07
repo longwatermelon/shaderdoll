@@ -16,7 +16,8 @@ void Scope::add_vardef(Node *node)
     if (find_vardef(node->vardef_name))
     {
         throw std::runtime_error(fmt::format(
-            "[Scope::add_vardef] Error: Variable '{}' already exists.", node->vardef_name));
+            "[Scope::add_vardef] (Line {}) Error: Variable '{}' already exists.",
+            node->line, node->vardef_name));
     }
 
     m_layers.back().vardefs.emplace_back(node);

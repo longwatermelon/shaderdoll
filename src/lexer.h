@@ -20,6 +20,6 @@ private:
     size_t m_index = 0;
 
     std::string m_contents;
-    size_t m_line;
+    size_t m_line = 1;
 };
 

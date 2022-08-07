@@ -36,6 +36,7 @@ enum class BinopType
 struct Node
 {
     NodeType type;
+    size_t line = 0;
 
     // vardef
     std::string vardef_name;

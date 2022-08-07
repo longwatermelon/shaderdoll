@@ -54,19 +54,19 @@ Token Lexer::next_token()
             advance();
 
         if (std::isdigit(m_ch))
-            return Token(TokenType::FLOAT, collect_float());
+            return Token(TokenType::FLOAT, collect_float(), m_line);
 
         if (std::isalnum(m_ch))
-            return Token(TokenType::ID, collect_id());
+            return Token(TokenType::ID, collect_id(), m_line);
 
         auto adv = [&](TokenType type, std::string c) {
             advance();
-            return Token(type, c);
+            return Token(type, c, m_line);
         };
 
         auto advb = [&](BinopToken type, std::string c) {
             advance();
-            return Token(type, c);
+            return Token(type, c, m_line);
         };
 
         switch (m_ch)
@@ -98,6 +98,6 @@ Token Lexer::next_token()
         }
     }
 
-    return Token(TokenType::EOF_, "");
+    return Token(TokenType::EOF_, "", m_line);
 }
 

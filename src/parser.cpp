@@ -22,8 +22,8 @@ void Parser::expect(TokenType type)
     }
     else
     {
-        throw std::runtime_error(fmt::format("[Parser::expect] Error: Unexpected token '{}' of type {}; Expected {}.",
-                                 m_curr.value, (int)m_curr.type, (int)type));
+        throw std::runtime_error(fmt::format("[Parser::expect] (Line {}) Error: Unexpected token '{}' of type {}; Expected {}.",
+                                 m_curr.line, m_curr.value, (int)m_curr.type, (int)type));
     }
 }
 
@@ -89,6 +89,9 @@ std::unique_ptr<Node> Parser::parse_expr()
     {
         m_prev_node.reset(0);
     }
+
+    if (m_prev_node)
+        m_prev_node->line = m_curr.line;
 
     return std::move(m_prev_node);
 }

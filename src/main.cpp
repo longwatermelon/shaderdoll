@@ -94,6 +94,7 @@ int main(int argc, char **argv)
     }
     catch (std::runtime_error &e)
     {
+        if (!g_quiet) std::cout << "\n";
         fmt::print("{}\n", e.what());
     }
 

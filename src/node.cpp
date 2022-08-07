@@ -8,6 +8,7 @@ Node::Node(NodeType type)
 std::unique_ptr<Node> Node::copy()
 {
     std::unique_ptr<Node> ret = std::make_unique<Node>(type);
+    ret->line = line;
 
     switch (type)
     {
