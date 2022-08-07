@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "errors.h"
 #include <sstream>
 #include <exception>
 #include <iostream>
@@ -93,7 +94,7 @@ Token Lexer::next_token()
             break;
         default:
         {
-            throw std::runtime_error(fmt::format("[Lexer::next_token] (Line {}) Error: Token {} is not recognized.", m_line, m_ch));
+            errors::lexer::unrecognized_token(m_line, m_ch);
         } break;
         }
     }

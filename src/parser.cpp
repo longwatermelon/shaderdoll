@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "errors.h"
 #include <exception>
 #include <sstream>
 #include <fmt/core.h>
@@ -22,8 +23,7 @@ void Parser::expect(TokenType type)
     }
     else
     {
-        throw std::runtime_error(fmt::format("[Parser::expect] (Line {}) Error: Unexpected token '{}' of type {}; Expected {}.",
-                                 m_curr.line, m_curr.value, (int)m_curr.type, (int)type));
+        errors::parser::unexpected_token(m_curr, type);
     }
 }
 

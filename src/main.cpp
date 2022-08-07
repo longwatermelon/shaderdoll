@@ -33,6 +33,9 @@ void variables(Visitor &v, size_t x, size_t y, size_t size)
 
 void generate(const std::string &prog, size_t size)
 {
+    if (!g_quiet)
+        std::cout << "\r0.00%" << std::flush;
+
     std::ifstream ifs(prog);
     std::stringstream ss;
     std::string buf;
