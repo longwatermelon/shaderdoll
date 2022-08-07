@@ -29,8 +29,12 @@ std::unique_ptr<Node> Node::copy()
 
     case NodeType::CONSTRUCTOR:
         ret->ctor_args.resize(ctor_args.size());
+        ret->ctor_args_res.resize(ctor_args_res.size());
         for (size_t i = 0; i < ctor_args.size(); ++i)
             ret->ctor_args[i] = ctor_args[i]->copy();
+
+        for (size_t i = 0; i < ctor_args_res.size(); ++i)
+            ret->ctor_args_res[i] = ctor_args_res[i]->copy();
 
         ret->ctor_type = ctor_type;
         ret->ctor_res = ctor_res ? ctor_res->copy() : nullptr;
@@ -53,14 +57,19 @@ std::unique_ptr<Node> Node::copy()
         ret->vardef_type = vardef_type;
         ret->vardef_name = vardef_name;
         ret->vardef_value = vardef_value->copy();
+        ret->vardef_value_res = vardef_value_res ? vardef_value_res->copy() : nullptr;
         break;
 
     case NodeType::FCALL:
         ret->fcall_name = fcall_name;
         ret->fcall_ret = fcall_ret ? fcall_ret->copy() : nullptr;
 
+        ret->fcall_args_res.resize(fcall_args_res.size());
         for (auto &v : fcall_args)
             ret->fcall_args.emplace_back(v->copy());
+
+        for (size_t i = 0; i < ret->fcall_args_res.size(); ++i)
+            ret->fcall_args_res[i] = fcall_args_res[i]->copy();
 
         break;
     case NodeType::FDEF:

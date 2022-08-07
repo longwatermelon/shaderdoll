@@ -54,11 +54,10 @@ Node *Visitor::visit_compound(Node *node)
 
 Node *Visitor::visit_vardef(Node *n)
 {
-    Node *value = visit(n->vardef_value.get());
-    n->vardef_value = value->copy();
+    n->vardef_value_res = visit(n->vardef_value.get())->copy();
 
     m_scope.add_vardef(n);
-    return n->vardef_value.get();
+    return n->vardef_value_res.get();
 }
 
 Node *Visitor::visit_var(Node *n)
@@ -69,13 +68,13 @@ Node *Visitor::visit_var(Node *n)
     {
         switch (n->var_memb_access)
         {
-        case 'x': return visit(def->vardef_value->vec_values[0].get());
-        case 'y': return visit(def->vardef_value->vec_values[1].get());
-        case 'z': return visit(def->vardef_value->vec_values[2].get());
+        case 'x': return visit(def->vardef_value_res->vec_values[0].get());
+        case 'y': return visit(def->vardef_value_res->vec_values[1].get());
+        case 'z': return visit(def->vardef_value_res->vec_values[2].get());
         }
     }
 
-    return visit(def->vardef_value.get());
+    return visit(def->vardef_value_res.get());
 }
 
 Node *Visitor::visit_assign(Node *n)
@@ -90,7 +89,7 @@ Node *Visitor::visit_assign(Node *n)
                                              "{}': {} and {}.", def->vardef_name, (int)def->vardef_type, (int)right->type));
     }
 
-    def->vardef_value = right->copy();
+    def->vardef_value_res = right->copy();
     return n;
 }
 
@@ -98,8 +97,9 @@ Node *Visitor::visit_fcall(Node *n)
 {
     g_fret = std::make_unique<Node>(NodeType::VOID);
 
-    for (auto &arg : n->fcall_args)
-        arg = visit(arg.get())->copy();
+    n->fcall_args_res.resize(n->fcall_args.size());
+    for (size_t i = 0; i < n->fcall_args.size(); ++i)
+        n->fcall_args_res[i] = visit(n->fcall_args[i].get())->copy();
 
     Node *builtin_call = builtin::call(n);
     if (builtin_call) return builtin_call;
@@ -107,12 +107,13 @@ Node *Visitor::visit_fcall(Node *n)
     Node *def = m_scope.find_fdef(n->fcall_name);
     m_scope.push_layer();
 
-    for (size_t i = 0; i < n->fcall_args.size(); ++i)
+    for (size_t i = 0; i < n->fcall_args_res.size(); ++i)
     {
         std::unique_ptr<Node> vardef = std::make_unique<Node>(NodeType::VARDEF);
         vardef->vardef_type = def->fdef_params[i]->param_type;
         vardef->vardef_name = def->fdef_params[i]->param_name;
-        vardef->vardef_value = n->fcall_args[i]->copy();
+        vardef->vardef_value = n->fcall_args_res[i]->copy();
+        vardef->vardef_value_res = vardef->vardef_value->copy();
 
         m_scope.add_param(std::move(vardef));
     }
@@ -135,11 +136,9 @@ Node *Visitor::visit_fdef(Node *n)
 
 Node *Visitor::visit_ctor(Node *n)
 {
-    for (auto &e : n->ctor_args)
-    {
-        Node *value = visit(e.get());
-        e = value->copy();
-    }
+    n->ctor_args_res.resize(n->ctor_args.size());
+    for (size_t i = 0; i < n->ctor_args.size(); ++i)
+        n->ctor_args_res[i] = visit(n->ctor_args[i].get())->copy();
 
     n->ctor_res = builtin::construct(n);
     return n->ctor_res.get();
@@ -156,7 +155,7 @@ Node *Visitor::visit_vec(Node *n)
 Node *Visitor::visit_param(Node *n)
 {
     Node *def = m_scope.find_vardef(n->param_name);
-    return visit(def->vardef_value.get());
+    return visit(def->vardef_value_res.get());
 }
 
 #define BINOP_EXEC(a, b, op, res) { \

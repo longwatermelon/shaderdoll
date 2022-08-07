@@ -1,13 +1,14 @@
 float test(float a)
 {
-    if (a < 5) { return a + 1; }
-    else { return a - 1; };
+    print(a);
+    return a;
 };
 
 vec3 main()
 {
-    float b = test(10);
+    print(uv.x, uv.y);
     float a = test(3);
+    float b = test(10);
     print(a, b);
     return vec3(0, 0, 0);
 };

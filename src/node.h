@@ -39,7 +39,7 @@ struct Node
 
     // vardef
     std::string vardef_name;
-    std::unique_ptr<Node> vardef_value;
+    std::unique_ptr<Node> vardef_value, vardef_value_res;
     NodeType vardef_type = NodeType::NOOP;
 
     // var
@@ -48,7 +48,7 @@ struct Node
 
     // fcall
     std::string fcall_name;
-    std::vector<std::unique_ptr<Node>> fcall_args;
+    std::vector<std::unique_ptr<Node>> fcall_args, fcall_args_res;
     std::unique_ptr<Node> fcall_ret;
 
     // fdef
@@ -78,7 +78,7 @@ struct Node
 
     // constructor
     NodeType ctor_type = NodeType::NOOP;
-    std::vector<std::unique_ptr<Node>> ctor_args;
+    std::vector<std::unique_ptr<Node>> ctor_args, ctor_args_res;
     std::unique_ptr<Node> ctor_res;
 
     // compound

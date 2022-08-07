@@ -22,6 +22,7 @@ void variables(Visitor &v, size_t x, size_t y, size_t size)
     uv->vec_values[1]->float_value = yp;
 
     vardef->vardef_value = std::move(uv);
+    vardef->vardef_value_res = vardef->vardef_value->copy();
     vardef->vardef_type = NodeType::VEC;
     vardef->vardef_name = "uv";
 

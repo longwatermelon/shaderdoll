@@ -16,9 +16,9 @@ vec3 drawln(vec2 a, vec2 b, float r)
 vec3 main()
 {
     float ooz = (1 / 10) + 0.5;
-    float oozp = (1 / 11) + 0.5;
+    float oozp = (1 / 5) + 0.5;
     float nooz = (0-1 / 10) + 0.5;
-    float noozp = (0-1 / 11) + 0.5;
+    float noozp = (0-1 / 5) + 0.5;
     float r = 0.001;
 
     vec2 a = vec2(nooz, nooz);
@@ -30,9 +30,9 @@ vec3 main()
     vec2 g = vec2(noozp, oozp);
     vec2 h = vec2(oozp, oozp);
 
-    vec3 ta = drawln(a, b, r);
-    vec3 tb = drawln(b, d, r);
-    vec3 res = ta + tb;
+    vec3 res = drawln(a, b, r) + drawln(b, d, r) + drawln(d, c, r) + drawln(a, c, r) +
+               drawln(e, f, r) + drawln(f, h, r) + drawln(h, g, r) + drawln(g, e, r) +
+               drawln(a, e, r) + drawln(b, f, r) + drawln(d, h, r) + drawln(c, g, r);
 
     return res;
 };
