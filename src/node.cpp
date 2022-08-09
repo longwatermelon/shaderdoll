@@ -130,3 +130,28 @@ NodeType Node::str2dtype(const std::string &s)
     return NodeType::NOOP;
 }
 
+std::string Node::ntype2str(NodeType type)
+{
+    switch (type)
+    {
+    case NodeType::NOOP: return "noop";
+    case NodeType::VEC: return "vec";
+    case NodeType::BOOL: return "bool";
+    case NodeType::VOID: return "void";
+    case NodeType::FLOAT: return "float";
+    case NodeType::IF: return "if";
+    case NodeType::BINOP: return "binop";
+    case NodeType::RETURN: return "return";
+    case NodeType::ASSIGN: return "assignment";
+    case NodeType::COMPOUND: return "compound";
+    case NodeType::CONSTRUCTOR: return "constructor";
+    case NodeType::FCALL: return "function call";
+    case NodeType::FDEF: return "function definition";
+    case NodeType::PARAM: return "parameter";
+    case NodeType::VAR: return "variable";
+    case NodeType::VARDEF: return "variable definition";
+    }
+
+    return "";
+}
+

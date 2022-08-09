@@ -102,5 +102,7 @@ struct Node
 
     static std::string dtype2str(NodeType type);
     static NodeType str2dtype(const std::string &s);
+
+    static std::string ntype2str(NodeType type);
 };
 

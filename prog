@@ -1,45 +1,6 @@
-vec3 drawln(vec2 a, vec2 b, float r)
-{
-    vec2 g = b - a;
-    vec2 h = uv - a;
-
-    float tmp = dot(g, h) / dot(g, g);
-    if (tmp < 0) { tmp = 0; };
-    if (tmp > 1) { tmp = 1; };
-
-    float d = length(h - (g * vec2(tmp, tmp)));
-
-    if (d < r) { return vec3(1, 1, 1); }
-    else { return vec3(0, 0, 0); };
-};
-
 vec3 main()
 {
-    float zn = 5;
-    float zf = 10;
-    float r = 0.001;
-
-    vec3 a = vec3(0-1, 0-1, zn);
-    vec3 b = vec3(1, 0-1, zn);
-    vec3 c = vec3(1, 1, zn);
-    vec3 d = vec3(0-1, 1, zn);
-
-    vec3 e = vec3(0-1, 0-1, zf);
-    vec3 f = vec3(1, 0-1, zf);
-    vec3 g = vec3(1, 1, zf);
-    vec3 h = vec3(0-1, 1, zf);
-
-    vec2 ar = vec2(a.x / a.z + 0.5, a.y / a.z + 0.5);
-    vec2 br = vec2(b.x / b.z + 0.5, b.y / b.z + 0.5);
-    vec2 cr = vec2(c.x / c.z + 0.5, c.y / c.z + 0.5);
-    vec2 dr = vec2(d.x / d.z + 0.5, d.y / d.z + 0.5);
-
-    vec2 er = vec2(e.x / e.z + 0.5, e.y / e.z + 0.5);
-    vec2 fr = vec2(f.x / f.z + 0.5, f.y / f.z + 0.5);
-    vec2 gr = vec2(g.x / g.z + 0.5, g.y / g.z + 0.5);
-    vec2 hr = vec2(h.x / h.z + 0.5, h.y / h.z + 0.5);
-
-    return drawln(ar, br, r) + drawln(br, cr, r) + drawln(cr, dr, r) + drawln(dr, ar, r) +
-           drawln(er, fr, r) + drawln(fr, gr, r) + drawln(gr, hr, r) + drawln(hr, er, r) +
-           drawln(ar, er, r) + drawln(br, fr, r) + drawln(cr, gr, r) + drawln(dr, hr, r);
+    float a = vec2(1, 2);
+    a = vec2(1, 2);
+    return vec3(1, 1, 1);
 };
