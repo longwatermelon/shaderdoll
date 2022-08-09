@@ -21,6 +21,8 @@ namespace builtin
     Node *sin(Node *fcall);
     Node *cos(Node *fcall);
     Node *tan(Node *fcall);
+    Node *acos(Node *fcall);
     Node *abs(Node *fcall);
+    Node *pow(Node *fcall);
 }
 

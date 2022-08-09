@@ -48,7 +48,9 @@ Node *builtin::call(Node *fcall)
         { "sin", builtin::sin },
         { "cos", builtin::cos },
         { "tan", builtin::tan },
-        { "abs", builtin::abs }
+        { "acos", builtin::acos },
+        { "abs", builtin::abs },
+        { "pow", builtin::pow }
     };
 
     if (map.find(fcall->fcall_name) != map.end())
@@ -181,11 +183,30 @@ Node *builtin::tan(Node *fcall)
     return fcall->fcall_ret.get();
 }
 
+Node *builtin::acos(Node *fcall)
+{
+    Node *arg = fcall->fcall_args_res[0].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::acos(arg->float_value);
+
+    return fcall->fcall_ret.get();
+}
+
 Node *builtin::abs(Node *fcall)
 {
     Node *arg = fcall->fcall_args_res[0].get();
     fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
     fcall->fcall_ret->float_value = std::abs(arg->float_value);
+
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::pow(Node *fcall)
+{
+    Node *arg = fcall->fcall_args_res[0].get();
+    Node *power = fcall->fcall_args_res[1].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::pow(arg->float_value, power->float_value);
 
     return fcall->fcall_ret.get();
 }
