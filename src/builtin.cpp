@@ -48,7 +48,9 @@ Node *builtin::call(Node *fcall)
         { "sin", builtin::sin },
         { "cos", builtin::cos },
         { "tan", builtin::tan },
+        { "asin", builtin::asin },
         { "acos", builtin::acos },
+        { "atan", builtin::atan },
         { "abs", builtin::abs },
         { "pow", builtin::pow }
     };
@@ -183,11 +185,29 @@ Node *builtin::tan(Node *fcall)
     return fcall->fcall_ret.get();
 }
 
+Node *builtin::asin(Node *fcall)
+{
+    Node *arg = fcall->fcall_args_res[0].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::asin(arg->float_value);
+
+    return fcall->fcall_ret.get();
+}
+
 Node *builtin::acos(Node *fcall)
 {
     Node *arg = fcall->fcall_args_res[0].get();
     fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
     fcall->fcall_ret->float_value = std::acos(arg->float_value);
+
+    return fcall->fcall_ret.get();
+}
+
+Node *builtin::atan(Node *fcall)
+{
+    Node *arg = fcall->fcall_args_res[0].get();
+    fcall->fcall_ret = std::make_unique<Node>(NodeType::FLOAT);
+    fcall->fcall_ret->float_value = std::atan(arg->float_value);
 
     return fcall->fcall_ret.get();
 }
