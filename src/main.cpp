@@ -93,7 +93,7 @@ int main(int argc, char **argv)
                 g_quiet = true;
         }
 
-        generate(argv[1], 300);
+        generate(argv[1], 100);
     }
     catch (std::runtime_error &e)
     {
