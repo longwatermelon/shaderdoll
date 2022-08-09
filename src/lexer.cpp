@@ -38,7 +38,7 @@ std::string Lexer::collect_id()
 {
     std::string res;
 
-    while (std::isalnum(m_ch))
+    while (std::isalnum(m_ch) || m_ch == '_')
     {
         res += m_ch;
         advance();
