@@ -73,6 +73,10 @@ Unary `-` doesn't exist, use `0-` instead.
 * `normalize`: Normalize vector of variable size
 * `length`: Length of vector of variable size
 * `abs`: Absolute value
+* `pow`: pow(base, exp)
 * `sin`: sine
 * `cos`: cosine
 * `tan`: tangent
+* `asin`: arcsin
+* `acos`: arccos
+* `atan`: arctan
