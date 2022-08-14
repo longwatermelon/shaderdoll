@@ -1,6 +1,8 @@
 # shaderdoll
 Shadertoy clone
 
+Comes with a crippled glsl clone
+
 # Usage
 ## Basic template
 ```
