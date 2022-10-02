@@ -63,7 +63,7 @@ Node *Visitor::visit_vardef(Node *n)
 
 Node *Visitor::visit_var(Node *n)
 {
-    Node *def = m_scope.find_vardef(n->var_name);
+    Node *def = m_scope.find_vardef(n->var_name, true);
 
     if (def->vardef_type == NodeType::VEC)
     {
@@ -81,7 +81,7 @@ Node *Visitor::visit_var(Node *n)
 Node *Visitor::visit_assign(Node *n)
 {
     // Directly access assign_l because it's guaranteed to be NODE_VAR
-    Node *def = m_scope.find_vardef(n->assign_l->var_name);
+    Node *def = m_scope.find_vardef(n->assign_l->var_name, true);
     Node *right = visit(n->assign_r.get());
 
     if (def->vardef_type != right->type)
@@ -105,7 +105,7 @@ Node *Visitor::visit_fcall(Node *n)
     Node *builtin_call = builtin::call(n);
     if (builtin_call) return builtin_call;
 
-    Node *def = m_scope.find_fdef(n->fcall_name);
+    Node *def = m_scope.find_fdef(n->fcall_name, true);
     m_scope.push_layer();
 
     for (size_t i = 0; i < n->fcall_args_res.size(); ++i)
@@ -155,7 +155,7 @@ Node *Visitor::visit_vec(Node *n)
 
 Node *Visitor::visit_param(Node *n)
 {
-    Node *def = m_scope.find_vardef(n->param_name);
+    Node *def = m_scope.find_vardef(n->param_name, true);
     return visit(def->vardef_value_res.get());
 }
 

@@ -13,7 +13,7 @@ Scope::~Scope()
 
 void Scope::add_vardef(Node *node)
 {
-    if (find_vardef(node->vardef_name))
+    if (find_vardef(node->vardef_name, false))
     {
         throw std::runtime_error(fmt::format(
             "[Scope::add_vardef] (Line {}) Error: Variable '{}' already exists.",
@@ -38,7 +38,7 @@ void Scope::add_fdef(Node *node)
     m_fdefs.emplace_back(node);
 }
 
-Node *Scope::find_vardef(const std::string &name)
+Node *Scope::find_vardef(const std::string &name, bool error)
 {
     for (auto &def : m_layers.back().vardefs)
     {
@@ -58,16 +58,22 @@ Node *Scope::find_vardef(const std::string &name)
             return def;
     }
 
+    if (error)
+        throw std::runtime_error(fmt::format("Error: No variable named '{}'.", name));
+
     return nullptr;
 }
 
-Node *Scope::find_fdef(const std::string &name)
+Node *Scope::find_fdef(const std::string &name, bool error)
 {
     for (auto &def : m_fdefs)
     {
         if (def->fdef_name == name)
             return def;
     }
+
+    if (error)
+        throw std::runtime_error(fmt::format("Error: No function named '{}'.", name));
 
     return nullptr;
 }

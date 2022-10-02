@@ -18,8 +18,8 @@ public:
     void add_param(std::unique_ptr<Node> node);
     void add_fdef(Node *node);
 
-    Node *find_vardef(const std::string &name);
-    Node *find_fdef(const std::string &name);
+    Node *find_vardef(const std::string &name, bool error);
+    Node *find_fdef(const std::string &name, bool error);
 
     void push_layer();
     void pop_layer();
